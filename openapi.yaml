@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Store API
   description: Simple API to create and update store informations
-  version: "0.2.0.1"
+  version: "2.0.1"
 servers:
 - url: /
 paths:
