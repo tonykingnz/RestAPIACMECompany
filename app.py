@@ -13,14 +13,14 @@ def list(limit, storeAddress=None):
     return {"stores": [store for store in STORES.values() if not storeAddress or store['storeAddress'] == storeAddress][:limit]}
 
 def create(storeId, store):
-#    notExists = storeId not in STORES
-#    store['id'] = storeId
-#
-#    if notExists:
-#        logging.info('Creating store %s..', storeId)
-#        store['created'] = datetime.datetime.utcnow()
-#        STORES[storeId] = store
-#    return NoContent, (200 if exists else 201)
+   notExists = storeId not in STORES
+   store['id'] = storeId
+
+   if notExists:
+       logging.info('Creating store %s..', storeId)
+       store['created'] = datetime.datetime.utcnow()
+       STORES[storeId] = store
+   return NoContent, (200 if exists else 201)
 
 def detail(storeId):
     store = STORES.get(storeId)
