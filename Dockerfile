@@ -6,7 +6,7 @@ COPY Pipfile.lock /
 RUN pipenv install --system --deploy --ignore-pipfile
 
 COPY app.py /
-COPY openapi.yaml /
+COPY swagger.yaml /
 
 WORKDIR /data
-CMD python /app.py
+CMD /app.py

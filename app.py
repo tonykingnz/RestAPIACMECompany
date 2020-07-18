@@ -10,30 +10,31 @@ STORES = {}
 
 
 def list(limit, storeAddress=None):
-    return {"stores": [store for store in STORES.values() if not storeAddress or store['storeAddress'] == storeAddress][:limit]}
+    return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress][:limit]}
 
-def create(storeId, store):
-   notExists = storeId not in STORES
-   store['id'] = storeId
-
-   if notExists:
-       logging.info('Creating store %s..', storeId)
-       store['created'] = datetime.datetime.utcnow()
-       STORES[storeId] = store
-   return NoContent, (200 if exists else 201)
-
+def create(store, storeId):
+    notExists = storeId not in STORES
+    store['id'] = storeId
+    if notExists:
+        logging.info('Creating store %s..', storeId)
+        time = datetime.datetime.utcnow()
+        time.strftime('%m/%d/%Y')
+        store['created'] = time
+        STORES[storeId] = store
+    return NoContent, (201 if notExists else 400)
+    
 def detail(storeId):
     store = STORES.get(storeId)
     return store or ('Not found', 404)
 
-def update(storeId, store):
+def update(store, storeId):
     exists = storeId in STORES
+    store['id'] = storeId
     if exists:
         logging.info('Updating store %s..', storeId)
         STORES[storeId].update(store)
-    else:
-        return ('Not found', 404)
-
+    return NoContent, (200 if exists else 404)
+    
 def remove(storeId):
     if storeId in STORES:
         logging.info('Deleting store %s..', storeId)
@@ -44,7 +45,7 @@ def remove(storeId):
 
 logging.basicConfig(level=logging.INFO)
 app = connexion.App(__name__)
-app.add_api('openapi.yaml')
+app.add_api('swagger.yaml')
 # set the WSGI application callable to allow using uWSGI:
 # uwsgi --http :8080 -w app
 application = app.app

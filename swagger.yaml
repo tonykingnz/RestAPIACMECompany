@@ -1,171 +1,163 @@
-openapi: 3.0.1
+swagger: '2.0'
 info:
-  title: Shop API
+  title: Store API
   description: Simple API to create and update store informations
-  version: "0.1"
-servers:
-- url: /
-security:
-- oauth2:
-  - uid
+  version: '2.2.1'
+consumes:
+  - application/json
+produces:
+  - application/json
 paths:
   /stores:
     get:
       tags:
-      - Stores
+        - '1. Store API - List and Create'
       summary: List Stores
-      operationId: app.get_stores
+      operationId: app.list
       parameters:
-      - name: store_address
-        in: query
-        schema:
+        - name: storeAddress
+          in: query
           type: string
-      - name: limit
-        in: query
-        schema:
-          minimum: 0
-          type: integer
+        - name: limit
+          in: query
           format: int32
           default: 100
+          type: integer
       responses:
-        200:
+        '200':
           description: Return stores
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  pets:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ResumeStore'
+          schema:
+            type: object
+            properties:
+              stores:
+                type: array
+                items:
+                  $ref: '#/definitions/ResumeStore'
     post:
       tags:
-      - Stores
+        - '1. Store API - List and Create'
       summary: Create a Store
-      operationId: createStore
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Store'
-        required: true
+      operationId: app.create
+      parameters:
+        - name: storeId
+          in: query
+          required: true
+          format: int32
+          type: integer
+        - required: true
+          name: store
+          in: body
+          schema:
+            $ref: '#/definitions/Store'
       responses:
-        201:
+        '201':
           description: Store created
-          content: {}
+        '400':
+          description: Store already exist
       x-codegen-request-body-name: store
-  /store/{storeId}:
+    
+  '/store/{storeId}':
     get:
       tags:
-      - Stores
+        - '2. Store API - Detail, Update and Remove'
       summary: Detail of a Store
-      operationId: app.get_store
+      operationId: app.detail
       parameters:
-      - name: storeId
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: storeId
+          in: path
+          required: true
           format: int32
+          type: integer
       responses:
-        200:
-          description: Return pet
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Store'
-        404:
+        '200':
+          description: Return store
+          schema:
+            $ref: '#/definitions/Store'
+        '404':
           description: Store does not exist
-          content: {}
     put:
       tags:
-      - Stores
+        - '2. Store API - Detail, Update and Remove'
       summary: Update a Store
-      operationId: app.put_store
+      operationId: app.update
       parameters:
-      - name: storeId
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: storeId
+          in: path
+          required: true
           format: int32
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Store'
-        required: false
+          type: integer
+        - required: false
+          name: store
+          in: body
+          schema:
+            $ref: '#/definitions/Store'
       responses:
-        200:
+        '200':
           description: Store updated
-          content: {}
+        '404':
+          description: Store does not exist
       x-codegen-request-body-name: store
     delete:
       tags:
-      - Stores
+        - '2. Store API - Detail, Update and Remove'
       summary: Remove a Store
-      operationId: app.delete_store
+      operationId: app.remove
       parameters:
-      - name: storeId
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: storeId
+          in: path
+          required: true
           format: int32
+          type: integer
       responses:
-        204:
+        '204':
           description: Store was deleted
-          content: {}
-        404:
+        '404':
           description: Store does not exist
-          content: {}
-components:
-  schemas:
-    ResumeStore:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: store identifier
-          format: int32
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Store's name
-          example: Apple Park Visitor Center
-    Store:
-      required:
+definitions:
+  ResumeStore:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: store identifier
+        format: int32
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+        description: Store's name
+        example: Apple Park Visitor Center
+  Store:
+    required:
       - name
-      type: object
-      properties:
-        id:
-          type: integer
-          description: store identifier
-          format: int32
-        name:
-          maxLength: 100
-          minLength: 1
+    type: object
+    properties:
+      id:
+        type: integer
+        description: store identifier
+        format: int32
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+        description: Store's name
+        example: Apple Park Visitor Center
+      address:
+        minLength: 1
+        type: string
+        description: Coordinates of the store
+        example: '37.3327° N, 122.0053° W'
+      tags:
+        type: array
+        description: Custom tags
+        items:
           type: string
-          description: Store's name
-          example: Apple Park Visitor Center
-        address:
-          minLength: 1
-          type: string
-          description: Coordinates of the store
-          example: 37.3327° N, 122.0053° W
-        tags:
-          type: array
-          description: Custom tags
-          items:
-            type: string
-        created:
-          type: string
-          description: Creation time
-          format: date-time
-          readOnly: true
-          example: 2017-11-17T15:49:51.23+02:00
+      created:
+        type: string
+        format: date-time
+        description: Creation time
+        example: '2017-11-17T13:49:51.230Z'
+x-components:
   parameters:
     storeId:
       name: storeId
@@ -179,13 +171,5 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Store'
+            $ref: '#/definitions/Store'
       required: false
-  securitySchemes:
-    oauth2:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://example.com/oauth2/dialog
-          scopes:
-            uid: Unique identifier of the user accessing the service.
