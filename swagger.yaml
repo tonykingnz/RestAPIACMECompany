@@ -1,0 +1,191 @@
+openapi: 3.0.1
+info:
+  title: Shop API
+  description: Simple API to create and update store informations
+  version: "0.1"
+servers:
+- url: /
+security:
+- oauth2:
+  - uid
+paths:
+  /stores:
+    get:
+      tags:
+      - Stores
+      summary: List Stores
+      operationId: app.get_stores
+      parameters:
+      - name: store_address
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 100
+      responses:
+        200:
+          description: Return stores
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResumeStore'
+    post:
+      tags:
+      - Stores
+      summary: Create a Store
+      operationId: createStore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+        required: true
+      responses:
+        201:
+          description: Store created
+          content: {}
+      x-codegen-request-body-name: store
+  /store/{storeId}:
+    get:
+      tags:
+      - Stores
+      summary: Detail of a Store
+      operationId: app.get_store
+      parameters:
+      - name: storeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Return pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        404:
+          description: Store does not exist
+          content: {}
+    put:
+      tags:
+      - Stores
+      summary: Update a Store
+      operationId: app.put_store
+      parameters:
+      - name: storeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+        required: false
+      responses:
+        200:
+          description: Store updated
+          content: {}
+      x-codegen-request-body-name: store
+    delete:
+      tags:
+      - Stores
+      summary: Remove a Store
+      operationId: app.delete_store
+      parameters:
+      - name: storeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        204:
+          description: Store was deleted
+          content: {}
+        404:
+          description: Store does not exist
+          content: {}
+components:
+  schemas:
+    ResumeStore:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: store identifier
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Store's name
+          example: Apple Park Visitor Center
+    Store:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: store identifier
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Store's name
+          example: Apple Park Visitor Center
+        address:
+          minLength: 1
+          type: string
+          description: Coordinates of the store
+          example: 37.3327° N, 122.0053° W
+        tags:
+          type: array
+          description: Custom tags
+          items:
+            type: string
+        created:
+          type: string
+          description: Creation time
+          format: date-time
+          readOnly: true
+          example: 2017-11-17T15:49:51.23+02:00
+  parameters:
+    storeId:
+      name: storeId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int32
+  requestBodies:
+    storeBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Store'
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://example.com/oauth2/dialog
+          scopes:
+            uid: Unique identifier of the user accessing the service.
