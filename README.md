@@ -17,3 +17,7 @@ Make sure that Python >= 3.6 is installed then clone or download this repo and i
 >docker build -t store-api-2.2 .
 
 >docker run -dp 8080:8080 store-api-2.2
+
+### Swagger UI:
+
+![Swagger UI Demo Image](/images/logo.png)
