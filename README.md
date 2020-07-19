@@ -20,4 +20,4 @@ Make sure that Python >= 3.6 is installed then clone or download this repo and i
 
 ### Swagger UI:
 
-![Swagger UI Demo Image](/images/logo.png)
+![Swagger UI Demo Image](SwaggerUI.pdf)
