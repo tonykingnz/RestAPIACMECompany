@@ -1,72 +1,79 @@
-swagger: '2.0'
-info:
-  title: Store API
-  description: Simple API to create and update store informations
-  version: '2.2.1'
 consumes:
   - application/json
-produces:
-  - application/json
-paths:
-  /stores:
-    get:
+definitions:
+  ResumeStore:
+    properties:
+      id:
+        description: store identifier
+        format: int32
+        type: integer
+      name:
+        description: Store's name
+        example: Apple Park Visitor Center
+        maxLength: 100
+        minLength: 1
+        type: string
+    type: object
+  Store:
+    properties:
+      address:
+        description: Coordinates of the store
+        example: '37.3327° N, 122.0053° W'
+        minLength: 1
+        type: string
+      created:
+        description: Creation time
+        example: '2017-11-17T13:49:51.230Z'
+        format: date-time
+        type: string
+      id:
+        description: store identifier
+        format: int32
+        type: integer
+        readOnly: true
+      name:
+        description: Store's name
+        example: Apple Park Visitor Center
+        maxLength: 100
+        minLength: 1
+        type: string
       tags:
-        - '1. Store API - List and Create'
-      summary: List Stores
-      operationId: app.list
-      parameters:
-        - name: storeAddress
-          in: query
+        description: Custom tags
+        items:
           type: string
-        - name: limit
-          in: query
-          format: int32
-          default: 100
-          type: integer
-      responses:
-        '200':
-          description: Return stores
-          schema:
-            type: object
-            properties:
-              stores:
-                type: array
-                items:
-                  $ref: '#/definitions/ResumeStore'
-    post:
-      tags:
-        - '1. Store API - List and Create'
-      summary: Create a Store
-      operationId: app.create
+        type: array
+    required:
+      - name
+    type: object
+info:
+  description: Simple API to create and update store informations
+  title: Store API
+  version: 2.2.1
+paths:
+  '/stores/{storeId}':
+    delete:
+      operationId: app.remove
       parameters:
-        - name: storeId
-          in: query
+        - format: int32
+          in: path
+          name: storeId
           required: true
-          format: int32
           type: integer
-        - required: true
-          name: store
-          in: body
-          schema:
-            $ref: '#/definitions/Store'
       responses:
-        '201':
-          description: Store created
-        '400':
-          description: Store already exist
-      x-codegen-request-body-name: store
-    
-  '/store/{storeId}':
-    get:
+        '204':
+          description: Store was deleted
+        '404':
+          description: Store does not exist
+      summary: Remove a Store
       tags:
         - '2. Store API - Detail, Update and Remove'
-      summary: Detail of a Store
+    get:
       operationId: app.detail
       parameters:
-        - name: storeId
+        - format: int32
           in: path
+          name: storeId
           required: true
-          format: int32
           type: integer
       responses:
         '200':
@@ -75,97 +82,91 @@ paths:
             $ref: '#/definitions/Store'
         '404':
           description: Store does not exist
-    put:
+      summary: Detail of a Store
       tags:
         - '2. Store API - Detail, Update and Remove'
-      summary: Update a Store
+    put:
       operationId: app.update
       parameters:
-        - name: storeId
+        - format: int32
           in: path
+          name: storeId
           required: true
-          format: int32
           type: integer
-        - required: false
+        - in: body
           name: store
-          in: body
+          required: false
           schema:
             $ref: '#/definitions/Store'
+            x-scope:
+              - ''
       responses:
         '200':
           description: Store updated
         '404':
           description: Store does not exist
-      x-codegen-request-body-name: store
-    delete:
+      summary: Update a Store
       tags:
         - '2. Store API - Detail, Update and Remove'
-      summary: Remove a Store
-      operationId: app.remove
+      x-codegen-request-body-name: store
+  /stores:
+    get:
+      operationId: app.list
       parameters:
-        - name: storeId
-          in: path
-          required: true
+        - in: query
+          name: storeAddress
+          type: string
+        - default: 100
           format: int32
+          in: query
+          name: limit
           type: integer
       responses:
-        '204':
-          description: Store was deleted
-        '404':
-          description: Store does not exist
-definitions:
-  ResumeStore:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: store identifier
-        format: int32
-      name:
-        maxLength: 100
-        minLength: 1
-        type: string
-        description: Store's name
-        example: Apple Park Visitor Center
-  Store:
-    required:
-      - name
-    type: object
-    properties:
-      id:
-        type: integer
-        description: store identifier
-        format: int32
-      name:
-        maxLength: 100
-        minLength: 1
-        type: string
-        description: Store's name
-        example: Apple Park Visitor Center
-      address:
-        minLength: 1
-        type: string
-        description: Coordinates of the store
-        example: '37.3327° N, 122.0053° W'
+        '200':
+          description: Return stores
+          schema:
+            properties:
+              stores:
+                items:
+                  $ref: '#/definitions/ResumeStore'
+                  x-scope:
+                    - ''
+                type: array
+            type: object
+      summary: List Stores
       tags:
-        type: array
-        description: Custom tags
-        items:
-          type: string
-      created:
-        type: string
-        format: date-time
-        description: Creation time
-        example: '2017-11-17T13:49:51.230Z'
+        - 1. Store API - List and Create
+    post:
+      operationId: app.create
+      parameters:
+        - in: body
+          name: store
+          required: true
+          schema:
+            $ref: '#/definitions/Store'
+            x-scope:
+              - ''
+      responses:
+        '201':
+          description: Store created
+        '400':
+          description: Store already exist
+      summary: Create a Store
+      tags:
+        - 1. Store API - List and Create
+      x-codegen-request-body-name: store
+produces:
+  - application/json
+swagger: '2.0'
 x-components:
   parameters:
     storeId:
-      name: storeId
       in: path
+      name: storeId
       required: true
       schema:
-        type: integer
         format: int32
+        type: integer
   requestBodies:
     storeBody:
       content:
@@ -173,3 +174,4 @@ x-components:
           schema:
             $ref: '#/definitions/Store'
       required: false
+

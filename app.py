@@ -7,21 +7,20 @@ from connexion import NoContent
 
 # our memory-only store storage
 STORES = {}
-
+STORE_ID = 0
 
 def list(limit, storeAddress=None):
     return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress][:limit]}
 
-def create(store, storeId):
-    notExists = storeId not in STORES
-    store['id'] = storeId
-    if notExists:
-        logging.info('Creating store %s..', storeId)
-        time = datetime.datetime.utcnow()
-        time.strftime('%m/%d/%Y')
-        store['created'] = time
-        STORES[storeId] = store
-    return NoContent, (201 if notExists else 400)
+def create(store):
+    global STORE_ID
+    time = datetime.datetime.utcnow()
+    time.strftime('%m/%d/%Y')
+    store['created'] = time
+    STORE_ID += 1
+    store['id'] = STORE_ID
+    STORES[STORE_ID] = store
+    return ('No Content', 201)
     
 def detail(storeId):
     store = STORES.get(storeId)
