@@ -1,5 +1,272 @@
+swagger: '2.0'
+info:
+  title: ACME Company API
+  description: ACME Company API to manage stores, orders, and payments
+  version: '3.1'
 consumes:
   - application/json
+produces:
+  - application/json
+  
+paths:
+  /stores:
+    get:
+      operationId: app.list
+      parameters:
+        - in: query
+          name: storeAddress
+          type: string
+        - default: 100
+          format: int32
+          in: query
+          name: limit
+          type: integer
+      responses:
+        '200':
+          description: Return stores
+          schema:
+            type: array
+            items:
+                $ref: '#/definitions/ResumeStore'
+      summary: List Stores
+      tags:
+        - 1. Store - List and Create
+    post:
+      operationId: app.create
+      parameters:
+        - in: body
+          name: store
+          required: true
+          schema:
+            $ref: '#/definitions/Store'
+      responses:
+        '201':
+          description: Store created
+        '400':
+          description: Store already exist
+      summary: Create a Store
+      tags:
+        - 1. Store - List and Create
+      x-codegen-request-body-name: store
+  '/stores/{storeId}':
+    get:
+      operationId: app.detail
+      parameters:
+        - format: int32
+          in: path
+          name: storeId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Return store
+          schema:
+            $ref: '#/definitions/Store'
+        '404':
+          description: Store does not exist
+      summary: Detail of a Store
+      tags:
+        - '2. Store - Detail, Update and Remove'
+    put:
+      operationId: app.update
+      parameters:
+        - format: int32
+          in: path
+          name: storeId
+          required: true
+          type: integer
+        - in: body
+          name: store
+          required: false
+          schema:
+            $ref: '#/definitions/Store'
+      responses:
+        '200':
+          description: Store updated
+        '404':
+          description: Store does not exist
+      summary: Update a Store
+      tags:
+        - '2. Store - Detail, Update and Remove'
+      x-codegen-request-body-name: store
+    delete:
+      operationId: app.remove
+      parameters:
+        - format: int32
+          in: path
+          name: storeId
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: Store was deleted
+        '404':
+          description: Store does not exist
+      summary: Remove a Store
+      tags:
+        - '2. Store - Detail, Update and Remove'
+  /orders :
+    get:
+      operationId: app.listOrder
+      parameters:
+        - format: int32
+          in: query
+          name: status
+          type: string
+      responses:
+        '200':
+          description: List with orders, can be filtred by status
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ResumeOrder'
+        '404':
+          description: Order does not exist
+      summary: List of Orders
+      tags:
+        - '3. Order - List and Create'
+    post:
+      operationId: app.createOrder
+      parameters:
+        - in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        '200':
+          description: Order created
+        '404':
+          description: Order already exist
+      summary: Create an Order
+      tags:
+        - '3. Order - List and Create'
+      x-codegen-request-body-name: store
+  /orders/{orderId} :
+    get:
+        operationId: app.detailOrder
+        parameters:
+          - format: int32
+            in: path
+            name: orderId
+            required: true
+            type: integer
+        responses:
+          '200':
+            description: Retrieve order by ID
+            schema:
+              $ref: '#/definitions/Order'
+          '404':
+            description: Order does not exist
+        summary: Detail of an Order
+        tags:
+          - '4. Order - Detail, Update and Refound'
+    put:
+      operationId: app.updateOrder
+      parameters:
+        - format: int32
+          in: path
+          name: orderId
+          required: true
+          type: integer
+        - in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        '200':
+          description: Order updated
+        '404':
+          description: Order already exist
+      summary: Update an Order
+      tags:
+        - '4. Order - Detail, Update and Refound'
+      x-codegen-request-body-name: order
+    delete:
+      operationId: app.refund
+      parameters:
+        - format: int32
+          in: path
+          name: orderId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Refunded with sucess
+        '404':
+          description: 'Refund was not able to be performed, check if ID exist or if the refund period of 10 days passed'
+      summary: Refund an order
+      tags:
+        - '4. Order - Detail, Update and Refound'
+      x-codegen-request-body-name: order
+  /orders/{orderId}/payments :
+    get:
+        operationId: app.paymentInformation
+        parameters:
+          - format: int32
+            in: path
+            name: orderId
+            required: true
+            type: integer
+        responses:
+          '200':
+            description: Payment for the order that this is inside.
+            schema:
+              $ref: '#/definitions/Payment'
+          '404':
+            description: Payment not yet created
+        summary: Detail of a Payment
+        tags:
+          - '5. Payment - Create, Detail and Update'
+    post:
+      operationId: app.createPayment
+      parameters:
+        - format: int32
+          in: path
+          name: orderId
+          required: true
+          type: integer
+        - in: body
+          name: payment
+          required: true
+          schema:
+            $ref: '#/definitions/Payment'
+      responses:
+        '200':
+          description: Payment created
+        '404':
+          description: Payment already exist
+        '405':
+          description: Some paramter is out of format. Check credit card numbers and everything else.
+      summary: Create a Payment
+      tags:
+        - '5. Payment - Create, Detail and Update'
+      x-codegen-request-body-name: payment
+    put:
+      operationId: app.updatePayment
+      parameters:
+        - format: int32
+          in: path
+          name: orderId
+          required: true
+          type: integer
+        - in: body
+          name: payment
+          required: true
+          schema:
+            $ref: '#/definitions/Payment'
+      responses:
+        '200':
+          description: Payment update
+        '404':
+          description: Payment dont found
+        '405':
+          description: Some paramter is out of format. Check credit card numbers and everything else.
+      summary: Create a Payment
+      tags:
+        - '5. Payment - Create, Detail and Update'
+      x-codegen-request-body-name: payment
 definitions:
   ResumeStore:
     properties:
@@ -8,7 +275,7 @@ definitions:
         format: int32
         type: integer
       name:
-        description: Store's name
+        description: Name of the store
         example: Apple Park Visitor Center
         maxLength: 100
         minLength: 1
@@ -32,7 +299,7 @@ definitions:
         type: integer
         readOnly: true
       name:
-        description: Store's name
+        description: Name of the store
         example: Apple Park Visitor Center
         maxLength: 100
         minLength: 1
@@ -45,119 +312,73 @@ definitions:
     required:
       - name
     type: object
-info:
-  description: Simple API to create and update store informations
-  title: Store API
-  version: 2.2.1
-paths:
-  '/stores/{storeId}':
-    delete:
-      operationId: app.remove
-      parameters:
-        - format: int32
-          in: path
-          name: storeId
-          required: true
-          type: integer
-      responses:
-        '204':
-          description: Store was deleted
-        '404':
-          description: Store does not exist
-      summary: Remove a Store
-      tags:
-        - '2. Store API - Detail, Update and Remove'
-    get:
-      operationId: app.detail
-      parameters:
-        - format: int32
-          in: path
-          name: storeId
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: Return store
-          schema:
-            $ref: '#/definitions/Store'
-        '404':
-          description: Store does not exist
-      summary: Detail of a Store
-      tags:
-        - '2. Store API - Detail, Update and Remove'
-    put:
-      operationId: app.update
-      parameters:
-        - format: int32
-          in: path
-          name: storeId
-          required: true
-          type: integer
-        - in: body
-          name: store
-          required: false
-          schema:
-            $ref: '#/definitions/Store'
-            x-scope:
-              - ''
-      responses:
-        '200':
-          description: Store updated
-        '404':
-          description: Store does not exist
-      summary: Update a Store
-      tags:
-        - '2. Store API - Detail, Update and Remove'
-      x-codegen-request-body-name: store
-  /stores:
-    get:
-      operationId: app.list
-      parameters:
-        - in: query
-          name: storeAddress
-          type: string
-        - default: 100
-          format: int32
-          in: query
-          name: limit
-          type: integer
-      responses:
-        '200':
-          description: Return stores
-          schema:
-            properties:
-              stores:
-                items:
-                  $ref: '#/definitions/ResumeStore'
-                  x-scope:
-                    - ''
-                type: array
-            type: object
-      summary: List Stores
-      tags:
-        - 1. Store API - List and Create
-    post:
-      operationId: app.create
-      parameters:
-        - in: body
-          name: store
-          required: true
-          schema:
-            $ref: '#/definitions/Store'
-            x-scope:
-              - ''
-      responses:
-        '201':
-          description: Store created
-        '400':
-          description: Store already exist
-      summary: Create a Store
-      tags:
-        - 1. Store API - List and Create
-      x-codegen-request-body-name: store
-produces:
-  - application/json
-swagger: '2.0'
+  Order:
+    properties:
+      address:
+        description: Address of the order
+        example: '37.3327° N, 122.0053° W'
+        minLength: 1
+        type: string
+      confirmationDate:
+        description: Confirmation date of the order
+        example: '2017-11-17 13:49:51.230860' #maybe use the confirmation date as the date order was created
+        type: string
+      id:
+        description: store identifier
+        format: int32
+        type: integer
+        readOnly: true
+      status:
+        description: OrderStatus
+        example: paid
+        maxLength: 100
+        minLength: 1
+        type: string
+      orderItems:
+        type: array
+        items:
+          type: object
+          properties:
+            quantity:
+              type: integer
+              example: 2
+            description:
+              type: string
+              example: 'iPhone 11 Pro Max 512GB Gold'
+            unitPrice:
+              type: number
+              example: 1449.00
+  ResumeOrder:
+    properties:
+      id:
+        description: order identifier
+        format: int32
+        type: integer
+        readOnly: true
+      status:
+        description: Order Status
+        example: paid
+        maxLength: 50
+        minLength: 1
+        type: string
+  Payment:
+    properties:
+      paymentDate:
+        description: Payment date of the order
+        example: '2017-11-17 13:50:25.230860'
+        type: string
+      creditCardNumber:
+        description: Number of the Credit Card
+        pattern: '^\d{4} \d{4} \d{4} \d{4}$'
+        example: '5176 0400 0002 5018'
+        type: string
+      status:
+        description: Order Status
+        example: paid
+        maxLength: 50
+        minLength: 1
+        type: string
+
 x-components:
   parameters:
     storeId:
@@ -174,4 +395,3 @@ x-components:
           schema:
             $ref: '#/definitions/Store'
       required: false
-
