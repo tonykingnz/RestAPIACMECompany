@@ -5,25 +5,24 @@ import logging
 
 from connexion import NoContent
 
-# our memory-only storage and variables
+# our memory-only store storage
 STORES = {}
 ORDERS = {}
-PAYMENTS = {}
 STORE_ID = 0
 ORDER_ID = 0
 
-#Store
-def list(storeAddress=None):
-    return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress]}
+def list(limit, storeAddress=None):
+    return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress][:limit]}
 
 def create(store):
     global STORE_ID
     time = datetime.utcnow()
+#    time.strftime('%m/%d/%Y')
     store['created'] = time
     STORE_ID += 1
     store['id'] = STORE_ID
     STORES[STORE_ID] = store
-    return (STORES[STORE_ID], 201)
+    return ('No Content', 201)
     
 def detail(storeId):
     store = STORES.get(storeId)
@@ -45,107 +44,36 @@ def remove(storeId):
     else:
         return NoContent, 404
         
-#Order
-def listOrder(status=None):
-    return {"orders": [orders for orders in ORDERS.values() if not status or orders['status'] == status]}
-    
-def createOrder(order):
-    global ORDER_ID
-    ORDER_ID += 1
-    time = datetime.utcnow()
-    order['confirmationDate'] = time
-    order['id'] = ORDER_ID
-    order['status'] = 'PENDING'
-    order['paid'] = False
-    ORDERS[ORDER_ID] = order
-    return (ORDERS[ORDER_ID], 201)
-
-def detailOrder(orderId):
+def order(orderId):
     order = ORDERS.get(orderId)
     return order or ('Not found', 404)
 
-def updateOrder(order, orderId):
-    exists = orderId in ORDERS
-    order['id'] = orderId
-    if exists:
-        logging.info('Updating order %s..', orderId)
-        ORDERS[orderId].update(order)
-    return NoContent, (200 if exists else 404)
-
-#should only allow change before 10 days. If allowed later, can change the confimation date and refund the order any time.
+def createOrder(order):
+    global ORDER_ID
+    ORDER_ID += 1
+    order['id'] = ORDER_ID
+    ORDERS[ORDER_ID] = order
+    return ('No Content', 201)
 
 def refund(orderId):
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
-        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S.%f')
-        refundPeriod = orderDate + timedelta(days=10)
+        orderDate = datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f')
         dateNow = datetime.utcnow()
+        refundPeriod = orderDate + timedelta(days=10)
+#        refundPeriod = str(refundPeriod)
 
         if refundPeriod >= dateNow:
-            order = ORDERS[orderId]
-            if order['paid'] == True:
-                order['status'] = 'CANCELED'
-                ORDERS[orderId] = order
-                logging.info('Refunding Order %s..', orderId)
-                return ('Order refunded sucesfully', 200)
-            else:
-                return ('Order not paid. To refund requires a payment', 404)
-        else:
+#            ORDERS[orderId].update('status') = 'refunded'
+            logging.info('Refunding Order %s..', orderId)
+            del ORDERS[orderId]
             return ('Refund period of 10 days paced, sorry', 404)
-    else:
-        return ('Order ID is not valid or any other error', 404)
-
-def refundItem(orderId, items):
-    if orderId in ORDERS:
-        date = ORDERS[orderId].get('confirmationDate')
-        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S.%f')
-        refundPeriod = orderDate + timedelta(days=10)
-        dateNow = datetime.utcnow()
-
-        if refundPeriod >= dateNow:
-            order = ORDERS[orderId]
-            if order['paid'] == True:
-                order['orderItem'] = items['orderItems']
-                ORDERS[orderId] = order
-                logging.info('Refunding items from the order %s..', orderId)
-                return ('Order items refunded sucesfully', 200)
-            else:
-                return ('Order not paid. Refund requires a payment', 404)
         else:
-            return ('Refund period of 10 days paced, sorry', 404)
+            return NoContent, 404
+            
     else:
-        return ('Order ID is not valid or any other error', 404)
+        return NoContent, 404
         
-#Payment
-def createPayment(orderId, payment):
-    if orderId not in PAYMENTS:
-        time = datetime.utcnow()
-        payment['idFromOrder'] = orderId
-        payment['paymentDate'] = time
-        payment['status'] = 'SUBMITED'
-        order = ORDERS[orderId]
-        order['status'] = 'SUBMITED'
-        order['paid'] = True
-        ORDERS[orderId] = order
-        PAYMENTS[orderId] = payment
-        return (PAYMENTS[orderId], 201)
-    else:
-        return ('Payment already created', 404)
-
-def paymentInformation(orderId):
-    payment = PAYMENTS.get(orderId)
-    return payment or ('Not found', 404)
-    
-def updatePayment(orderId, payment):
-    exists = orderId in ORDERS
-    payment['idFromOrder'] = orderId
-    if exists:
-        logging.info('Updating payment for order with ID: %s..', orderId)
-        PAYMENTS[orderId].update(payment)
-    return NoContent, (200 if exists else 404)
-    
-
-#Configurations
 logging.basicConfig(level=logging.INFO)
 app = connexion.App(__name__)
 app.add_api('swagger.yaml')
@@ -156,3 +84,4 @@ application = app.app
 if __name__ == '__main__':
     # run our standalone gevent server
     app.run(port=8080, server='gevent')
+
