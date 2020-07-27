@@ -24,9 +24,5 @@ If not displaying, open the file: [SwaggerUI.pdf](https://github.com/tonykingnz/
 
 ###### based on https://github.com/invillia/backend-challenge
 
-Contact:
-joseant.silva@icloud.com
-santiagoalves@workmail.com
-
 
 last updated: 2020-07-24 11:41:50 (UTC - 3)
