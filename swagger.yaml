@@ -3,7 +3,7 @@ info:
   title: ACME Company API
   description: ACME Company API to manage stores, orders, and payments. You can find out more about this API at the [Github Project Repo](https://github.com/tonykingnz/RestAPIACMECompany)
   
-  version: '3.3'
+  version: '3.4'
 consumes:
   - application/json
 produces:
@@ -219,7 +219,7 @@ paths:
             required: true
             type: integer
           - in: body
-            name: items
+            name: orderItemsID
             required: true
             schema:
               $ref: '#/definitions/RefundItem'
@@ -253,7 +253,7 @@ paths:
             description: Payment not yet created
         summary: Detail of a Payment
         tags:
-          - '5. Payment - Create, Detail and Update'
+          - '5. Payment - Create and Detail'
     post:
       operationId: app.createPayment
       parameters:
@@ -276,33 +276,7 @@ paths:
           description: Some paramter is out of format. Check credit card numbers and everything else.
       summary: Create a Payment
       tags:
-        - '5. Payment - Create, Detail and Update'
-      x-codegen-request-body-name: payment
-    put:
-      operationId: app.updatePayment
-      parameters:
-        - format: int32
-          in: path
-          name: orderId
-          required: true
-          type: integer
-        - in: body
-          name: payment
-          required: true
-          schema:
-            $ref: '#/definitions/Payment'
-      responses:
-        '200':
-          description: Payment update
-          schema:
-            $ref: '#/definitions/Payment'
-        '404':
-          description: Payment dont found
-        '405':
-          description: Some paramter is out of format. Check credit card numbers and everything else.
-      summary: Update a payment
-      tags:
-        - '5. Payment - Create, Detail and Update'
+        - '5. Payment - Create and Detail'
       x-codegen-request-body-name: payment
 definitions:
   ResumeStore:
@@ -393,6 +367,11 @@ definitions:
               type: number
               format: float
               example: 1449.01
+            itemID:
+              type: integer
+              example: 7
+              format: int32
+              readOnly: true
       paid:
         type: boolean
         example: False
@@ -420,18 +399,13 @@ definitions:
         minLength: 1
         type: string
   RefundItem:
-    properties:
-      orderItems:
-        type: array
-        items:
-          type: object
-          properties:
-            quantity:
-              type: integer
-              example: 2
-            description:
-              type: string
-              example: 'iPhone 11 Pro Max 512GB Gold'
+    type: array
+    items:
+      type: integer
+      format: int32
+    uniqueItems: true
+    minItems: 1
+    example: [1, 2, 3, 4]
   Payment:
     properties:
       paymentDate:
@@ -447,6 +421,7 @@ definitions:
       orderId:
         description: Order id for payment
         type: integer
+        readOnly: true
       status:
         description: Order Status
         example: SUBMITED
@@ -476,3 +451,4 @@ x-components:
           schema:
             $ref: '#/definitions/Store'
       required: false
+

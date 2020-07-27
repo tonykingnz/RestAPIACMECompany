@@ -52,11 +52,18 @@ def listOrder(status=None):
 def createOrder(order):
     global ORDER_ID
     ORDER_ID += 1
+    item_id = 0
     time = datetime.utcnow()
     order['confirmationDate'] = time
     order['id'] = ORDER_ID
     order['status'] = 'PENDING'
     order['paid'] = False
+    orderItems = order['orderItems']
+    for items in orderItems:
+        item_id += 1
+        items['itemId'] = item_id
+        items['status'] = 'ACTIVE'
+    order['orderItems'] = orderItems
     ORDERS[ORDER_ID] = order
     return (ORDERS[ORDER_ID], 201)
 
@@ -85,6 +92,10 @@ def refund(orderId):
             order = ORDERS[orderId]
             if order['paid'] == True:
                 order['status'] = 'CANCELED'
+                orderItems = order['orderItems']
+                for items in orderItems:
+                    items['status'] = 'REFUNDED'
+                    order['orderItems'] = orderItems
                 ORDERS[orderId] = order
                 logging.info('Refunding Order %s..', orderId)
                 return ('Order refunded sucesfully', 200)
@@ -95,17 +106,26 @@ def refund(orderId):
     else:
         return ('Order ID is not valid or any other error', 404)
 
-def refundItem(orderId, items):
+def refundItem(orderId, orderItemsID):
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
         orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S.%f')
         refundPeriod = orderDate + timedelta(days=10)
         dateNow = datetime.utcnow()
-
         if refundPeriod >= dateNow:
             order = ORDERS[orderId]
             if order['paid'] == True:
-                order['orderItem'] = items['orderItems']
+                orderItems = order['orderItems']
+                for items in orderItemsID:
+                    try:
+                        itemIdNumber = int(items)
+                        itemIdNumber -= 1
+                        orderStatus = orderItems[itemIdNumber]
+                        orderStatus['status'] = 'REFUNDED'
+                        orderItems[itemIdNumber] = orderStatus
+                    except:
+                        return ('Some item ID dont found')
+                order['orderItems'] = orderItems
                 ORDERS[orderId] = order
                 logging.info('Refunding items from the order %s..', orderId)
                 return ('Order items refunded sucesfully', 200)
@@ -135,15 +155,6 @@ def createPayment(orderId, payment):
 def paymentInformation(orderId):
     payment = PAYMENTS.get(orderId)
     return payment or ('Not found', 404)
-    
-def updatePayment(orderId, payment):
-    exists = orderId in ORDERS
-    payment['idFromOrder'] = orderId
-    if exists:
-        logging.info('Updating payment for order with ID: %s..', orderId)
-        PAYMENTS[orderId].update(payment)
-    return NoContent, (200 if exists else 404)
-    
 
 #Configurations
 logging.basicConfig(level=logging.INFO)
