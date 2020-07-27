@@ -13,9 +13,9 @@ Make sure that Python >= 3.6, and all resources is installed then clone or downl
 
 #### Run using Docker:
 
->docker build -t store-api-2.2 .
+>docker build -t acme-api-3.4 .
 
->docker run -dp 8080:8080 store-api-2.2
+>docker run -dp 8080:8080 acme-api-3.4
 
 ### Demo Image of the Swagger UI:
 If not displaying, open the file: [SwaggerUI.pdf](https://github.com/tonykingnz/RestAPIACMECompany/blob/master/SwaggerUI.pdf)
