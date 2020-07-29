@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: ACME Company API
-  description: ACME Company API to manage stores, orders, and payments. You can find out more about this API at the [Github Project Repo](https://github.com/tonykingnz/RestAPIACMECompany)
+  description: ACME Company API to manage stores, orders, and payments. You can find out more about this API at the [Github Project Repo:https://github.com/tonykingnz/RestAPIACMECompany](https://github.com/tonykingnz/RestAPIACMECompany)
   
   version: '3.4'
 consumes:
@@ -172,18 +172,21 @@ paths:
           required: true
           type: integer
         - in: body
-          name: order
+          name: address
           required: true
           schema:
-            $ref: '#/definitions/OrderAddress'
+            description: Address of the order
+            example: '37.3327° N, 122.0053° W'
+            minLength: 1
+            type: string
       responses:
         '200':
-          description: Order updated
+          description: Order address updated
           schema:
               $ref: '#/definitions/Order'
         '404':
-          description: Order already exist
-      summary: Update an Order
+          description: Order id invalid
+      summary: Update an order address
       tags:
         - '3. Order - Create, List, Detail and Update'
       x-codegen-request-body-name: order
@@ -222,7 +225,13 @@ paths:
             name: orderItemsID
             required: true
             schema:
-              $ref: '#/definitions/RefundItem'
+              type: array
+              items:
+                type: integer
+                format: int32
+              uniqueItems: true
+              minItems: 1
+              example: [1, 2, 3, 4]
         responses:
           '200':
             description: Order item refunded
@@ -379,33 +388,38 @@ definitions:
         readOnly: true #should be readOnly?
   ResumeOrder:
     properties:
-      id:
-        description: order identifier
-        format: int32
-        type: integer
-        readOnly: true
-      status:
-        description: Order Status
-        example: PENDING
-        maxLength: 50
-        minLength: 1
-        type: string
-        readOnly: true
-  OrderAddress:
-    properties:
       address:
         description: Address of the order
         example: '37.3327° N, 122.0053° W'
         minLength: 1
         type: string
-  RefundItem:
-    type: array
-    items:
-      type: integer
-      format: int32
-    uniqueItems: true
-    minItems: 1
-    example: [1, 2, 3, 4]
+      confirmationDate:
+        description: Confirmation date of the order
+        example: '2017-11-17 13:49:51.230860' #maybe use the confirmation date as the date order was created
+        type: string
+        readOnly: true
+      id:
+        description: store identifier
+        format: int32
+        type: integer
+        readOnly: true
+      status:
+        description: OrderStatus
+        example: PENDING
+        maxLength: 100
+        minLength: 1
+        type: string
+        enum:
+          - PENDING
+          - EXPIRED
+          - SUBMITED
+          - CANCELED
+        readOnly: true
+      paid:
+        type: boolean
+        example: False
+        description: 'Order is paid'
+        readOnly: true #should be readOnly?
   Payment:
     properties:
       paymentDate:
