@@ -114,3 +114,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.bash_history
+.viminfo
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/RestAPIACMECompany.iml
+/.idea/vcs.xml
+.bash_history
+.viminfo
