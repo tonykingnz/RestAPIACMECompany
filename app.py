@@ -71,15 +71,15 @@ def detailOrder(orderId):
     order = ORDERS.get(orderId)
     return order or ('Not found', 404)
 
-def updateOrder(order, orderId):
+def updateOrder(address, orderId):
     exists = orderId in ORDERS
-    order['id'] = orderId
     if exists:
+        ORDERS[orderId] = order
+        order['id'] = orderId
+        order['address'] = address
         logging.info('Updating order %s..', orderId)
         ORDERS[orderId].update(order)
     return NoContent, (200 if exists else 404)
-
-#should only allow change before 10 days. If allowed later, can change the confimation date and refund the order any time.
 
 def refund(orderId):
     if orderId in ORDERS:
