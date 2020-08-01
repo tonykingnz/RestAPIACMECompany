@@ -1,0 +1,91 @@
+-------------------------------------------------------------
+
+Create Store:
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"address": "37.3327° N, 122.0053° W",  "name": "Apple Park Visitor Center"}' 'http://localhost:8080/stores'
+
+-------------------------------------------------------------
+
+List Store:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/stores'
+
+-------------------------------------------------------------
+
+Detail Store:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/stores/1'
+
+-------------------------------------------------------------
+
+Update Store:
+
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"address": "37.3327° N, 122.0053° W", "name": "Apple Park Visitor Center", "tags": ["Apple Store", "Consumer Electronics", "Support", "Computers", "Tech", "Travel"]}' 'http://localhost:8080/stores/1'
+
+-------------------------------------------------------------
+
+Remove Store:
+
+curl -X DELETE --header 'Accept: application/json' 'http://localhost:8080/stores/4'
+
+-------------------------------------------------------------
+
+List Order:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/orders'
+
+-------------------------------------------------------------
+
+Create Order:
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"address": "37.3327° N, 122.0053° W", "orderItems": [{"description": "iPhone 11 Pro Max 512GB Gold", "quantity": 2, "unitPrice": 1449.01}]}' 'http://localhost:8080/orders'
+
+-------------------------------------------------------------
+
+Detail Order:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/orders/1'
+
+-------------------------------------------------------------
+
+Update Order Address:
+
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/problem+json' -d '10600 N Tantau Ave, Cupertino, CA  95014, United States' 'http://localhost:8080/orders/1'
+
+-------------------------------------------------------------
+
+Create Payment:
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"creditCardNumber": "5176 0400 0002 5018"}' 'http://localhost:8080/orders/3/payments'
+
+-------------------------------------------------------------
+
+Detail Payment:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/orders/2/payments'
+
+-------------------------------------------------------------
+
+Refund Order:
+
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://localhost:8080/orders/2/refund'
+
+-------------------------------------------------------------
+
+Refund Order Item:
+
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '[1]' 'http://localhost:8080/orders/3/refund/item'
+
+-------------------------------------------------------------
+
+Detail Payment:
+
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/orders/2/payments'
+
+-------------------------------------------------------------
+
+Create Payment:
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"creditCardNumber": "5176 0400 0002 5018"}' 'http://localhost:8080/orders/3/payments'
+
+-------------------------------------------------------------
