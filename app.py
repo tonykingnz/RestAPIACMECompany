@@ -18,7 +18,7 @@ def list(storeAddress=None):
 
 def create(store):
     global STORE_ID
-    time = datetime.utcnow()
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     store['created'] = time
     STORE_ID += 1
     store['id'] = STORE_ID

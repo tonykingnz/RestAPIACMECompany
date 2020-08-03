@@ -1,0 +1,60 @@
+{
+  "listComplete": [
+    {
+      "address": "37.3327° N, 122.0053° W",
+      "id": 1,
+      "name": "Apple Park Visitor Center",
+      "tags": [
+        "string"
+      ]
+    },
+    {
+      "address": "767 Fifth Avenue, New York, NY 10153",
+      "id": 2,
+      "name": "Apple Fifth Avenue",
+      "tags": [
+        "Apple Store",
+        "Travel",
+        "Computers",
+        "Consumer Eletronics",
+        "Support"
+      ]
+    },
+    {
+      "address": "One Infinite Loop, Cupertino, CA 95014",
+      "id": 3,
+      "name": "Apple Infinite Loop"
+    },
+    {
+      "address": "4180 El Camino Real, Palo Alto, CA 94306",
+      "created": "2020-08-03 11:54:47",
+      "id": 4,
+      "name": "Tesla Palo Alto"
+    },
+    {
+      "address": "999 Van Ness Avenue, San Francisco, CA 94109",
+      "id": 5,
+      "name": "Tesla San Francisco",
+      "tags": [
+        "Tesla Store",
+        "Cars",
+        "Eletric Cars",
+        "Service Center"
+      ]
+    }
+  ],
+  "listFiltred": [
+    {
+      "address": "767 Fifth Avenue, New York, NY 10153",
+      "id": 2,
+      "name": "Apple Fifth Avenue",
+      "tags": [
+        "Apple Store",
+        "Travel",
+        "Computers",
+        "Consumer Eletronics",
+        "Support"
+      ]
+    }
+  ]
+}
