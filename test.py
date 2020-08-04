@@ -22,7 +22,35 @@ class TestStore(unittest.TestCase):
                     self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "Store creation failed!")
                     it += 1
                     
-#    def testListStore(self):
+    def testUpdateStore(self):
+        print("")
+        print("")
+        with open('inputUpdateStoreTest.json') as inputUpdateStoresFile:
+            storesInput = json.load(inputUpdateStoresFile)
+            for store in storesInput['stores']:
+                id = store['store'][0]['id']
+                store = store['store'][1]
+                updateStore = update(store, id)
+                updateStore = str(updateStore)
+                updateStore = updateStore.replace("<object object at", "")
+                updateStore = updateStore.replace("(", "")
+                updateStore = updateStore.replace(")", "")
+                updateStore = updateStore.replace(" ", "")
+                updateStore = updateStore.split(",")
+                updateStore = int(updateStore[1])
+                self.assertEqual(updateStore, 200, "Update store failed!")
+                
+#    def testListFiltredStore(self):
+#        it = 0
+#        with open('outputListStoreTest.json') as outputListStoresFile:
+#            storesOutput = json.load(outputListStoresFile)
+#            with open('inputListStoreTest.json') as inputListStoresFile:
+#                storesInput = json.load(inputListStoresFile)
+#                for store in storesInput['stores']:
+#                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "List store failed!")
+#                    it += 1
+
+#def testListNonFiltredStore(self):
 #        it = 0
 #        with open('outputListStoreTest.json') as outputListStoresFile:
 #            storesOutput = json.load(outputListStoresFile)
@@ -36,9 +64,6 @@ class TestStore(unittest.TestCase):
 #
 #        self.assertEqual(detailStore, EXPECTEDOUTPUTDETAILSTORE, "Detail Store failed")
 #
-#    def testUpdateStore(self):
-#
-#        self.assertEqual(updateStore, EXPECTEDOUTPUTUPDATESTORE, "Update Store failed")
 #
 #    def testRemoveStore(self):
 #
