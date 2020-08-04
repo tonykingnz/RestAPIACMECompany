@@ -38,17 +38,17 @@ class TestStore(unittest.TestCase):
                 updateStore = updateStore.replace(" ", "")
                 updateStore = updateStore.split(",")
                 updateStore = int(updateStore[1])
+                print(store)
+                print("")
                 self.assertEqual(updateStore, 200, "Update store failed!")
                 
-#    def testListFiltredStore(self):
-#        it = 0
-#        with open('outputListStoreTest.json') as outputListStoresFile:
-#            storesOutput = json.load(outputListStoresFile)
-#            with open('inputListStoreTest.json') as inputListStoresFile:
-#                storesInput = json.load(inputListStoresFile)
-#                for store in storesInput['stores']:
-#                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "List store failed!")
-#                    it += 1
+    def testListFiltredStore(self):
+        with open('outputListNonFiltredStoreTest.json') as outputListStoresFile:
+            storesOutput = json.load(outputListStoresFile)
+            print(list())
+            print("")
+            print(storesOutput)
+            self.assertEqual(list(), storesOutput, "List store failed!")
 
 #def testListNonFiltredStore(self):
 #        it = 0
