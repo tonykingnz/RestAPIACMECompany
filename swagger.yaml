@@ -37,9 +37,10 @@ paths:
             $ref: '#/definitions/Store'
       responses:
         '201':
-          description: Store created
+          description: Store created, plus id in response body
           schema:
-            $ref: '#/definitions/Store'
+            type: integer
+            format: int32
         '400':
           description: Store already exist
       summary: Create a Store
@@ -81,8 +82,6 @@ paths:
       responses:
         '200':
           description: Store updated
-          schema:
-            $ref: '#/definitions/Store'
         '404':
           description: Store does not exist
       summary: Update a Store
@@ -135,9 +134,10 @@ paths:
             $ref: '#/definitions/Order'
       responses:
         '200':
-          description: Order created
+          description: Order created, plus id
           schema:
-            $ref: '#/definitions/Order'
+            type: integer
+            format: int32
         '404':
           description: Order already exist
       summary: Create an Order
@@ -182,8 +182,6 @@ paths:
       responses:
         '200':
           description: Order address updated
-          schema:
-              $ref: '#/definitions/Order'
         '404':
           description: Order id invalid
       summary: Update an order address
@@ -203,8 +201,6 @@ paths:
         responses:
           '200':
             description: Order refunded
-            schema:
-              $ref: '#/definitions/Order'
           '404':
             description: Refund limit days passed or another problem occured
         summary: Refund Order
@@ -235,8 +231,6 @@ paths:
         responses:
           '200':
             description: Order item refunded
-            schema:
-              $ref: '#/definitions/Order'
           '404':
             description: Refund limit days passed or another problem occured
         summary: Refund Order Item
