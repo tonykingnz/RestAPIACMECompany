@@ -23,7 +23,7 @@ def create(store):
     STORE_ID += 1
     store['id'] = STORE_ID
     STORES[STORE_ID] = store
-    return (STORES[STORE_ID], 201)
+    return (STORES[STORE_ID]['id'], 201)
     
 def detail(storeId):
     store = STORES.get(storeId)

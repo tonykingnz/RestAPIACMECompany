@@ -12,44 +12,26 @@ from app import update
 from app import remove
 
 class TestStore(unittest.TestCase):
-
     def testCreateStore(self):
+        it = 0
         with open('outputCreateStoreTest.json') as outputCreateStoresFile:
             storesOutput = json.load(outputCreateStoresFile)
-            count = 0
             with open('inputCreateStoreTest.json') as inputCreateStoresFile:
                 storesInput = json.load(inputCreateStoresFile)
-                for storeInput in storesInput['stores']:
-                    createStore = create(storeInput)
-                    createStore = str(createStore)
-                    createStoreEdit = createStore.replace('(', '')
-                    createStoreEdit = createStoreEdit.split(" 'created': ", 1)
-                    createStore = createStoreEdit[0]
-                    idStore = createStoreEdit[1]
-                    idStore = idStore.split("'id'", 1)
-                    idStoreEdit = idStore[1]
-                    createStore += " 'id'"
-                    createStore += idStoreEdit
-                    status = idStoreEdit
-                    status = status.split("}", 1)
-                    statusEdit = status[1]
-                    createStore = createStore.replace(statusEdit, '')
-                    stores = storesOutput['stores'][count]
-                    store = stores['store']
-                    body = store['body']
-                    count += 1
-                    self.assertEqual(str(createStore), str(body), "Store creation failed")
+                for store in storesInput['stores']:
+                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "Store creation failed!")
+                    it += 1
                     
-
 #    def testListStore(self):
+#        it = 0
 #        with open('outputListStoreTest.json') as outputListStoresFile:
-#            listOutput = json.load(outputListStoresFile)
-#            listStoreNoFilter = list()
-#            listStoreNoFilter = str(listStoreNoFilter)
-#            listStoreNoFilter = listStoreNoFilter.replace('(', '')
-#            print(listStoreNoFilter)
-#            body = listOutput['listComplete']
-#            self.assertEqual(str(listStoreNoFilter), str(body), "List store without filter failed")
+#            storesOutput = json.load(outputListStoresFile)
+#            with open('inputListStoreTest.json') as inputListStoresFile:
+#                storesInput = json.load(inputListStoresFile)
+#                for store in storesInput['stores']:
+#                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "List store failed!")
+#                    it += 1
+
 #    def testDetailStore(self):
 #
 #        self.assertEqual(detailStore, EXPECTEDOUTPUTDETAILSTORE, "Detail Store failed")
