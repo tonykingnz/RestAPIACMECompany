@@ -5,7 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-
+#macOS Finder data
+.DS_Store
 # Distribution / packaging
 .Python
 build/
