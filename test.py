@@ -11,6 +11,17 @@ from app import detail
 from app import update
 from app import remove
 
+
+def formatUpdateStore (updateStore):
+    updateStore = str(updateStore)
+    updateStore = updateStore.replace("<object object at", "")
+    updateStore = updateStore.replace("(", "")
+    updateStore = updateStore.replace(")", "")
+    updateStore = updateStore.replace(" ", "")
+    updateStore = updateStore.split(",")
+    updateStore = int(updateStore[1])
+    return updateStore
+
 class TestStore(unittest.TestCase):
     def testCreateStore(self):
         it = 0
@@ -23,31 +34,25 @@ class TestStore(unittest.TestCase):
                     it += 1
                     
     def testUpdateStore(self):
-        print("")
-        print("")
+#        print("")
+#        print("")
         with open('inputUpdateStoreTest.json') as inputUpdateStoresFile:
             storesInput = json.load(inputUpdateStoresFile)
             for store in storesInput['stores']:
                 id = store['store'][0]['id']
                 store = store['store'][1]
                 updateStore = update(store, id)
-                updateStore = str(updateStore)
-                updateStore = updateStore.replace("<object object at", "")
-                updateStore = updateStore.replace("(", "")
-                updateStore = updateStore.replace(")", "")
-                updateStore = updateStore.replace(" ", "")
-                updateStore = updateStore.split(",")
-                updateStore = int(updateStore[1])
-                print(store)
-                print("")
+                updateStore = formatUpdateStore(updateStore)
+#                print(store)
+#                print("")
                 self.assertEqual(updateStore, 200, "Update store failed!")
                 
     def testListFiltredStore(self):
         with open('outputListNonFiltredStoreTest.json') as outputListStoresFile:
             storesOutput = json.load(outputListStoresFile)
-            print(list())
-            print("")
-            print(storesOutput)
+#            print(list())
+#            print("")
+#            print(storesOutput)
             self.assertEqual(list(), storesOutput, "List store failed!")
 
 #def testListNonFiltredStore(self):
