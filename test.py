@@ -23,7 +23,7 @@ def formatUpdateStore (updateStore):
     return updateStore
 
 class TestStore(unittest.TestCase):
-    def test1CreateStore(self):
+    def test01CreateStore(self):
         it = 0
         with open('outputCreateStoreTest.json') as outputCreateStoresFile:
             storesOutput = json.load(outputCreateStoresFile)
@@ -33,7 +33,7 @@ class TestStore(unittest.TestCase):
                     self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "Store creation failed!")
                     it += 1
                     
-    def test2UpdateStore(self):
+    def test02UpdateStore(self):
         print("")
         with open('inputUpdateStoreTest.json') as input_file:
            data = json.load(input_file)
@@ -41,21 +41,17 @@ class TestStore(unittest.TestCase):
                response = update(store, store['id'])
                self.assertEqual(response[1], 200, "Update store failed!")
                
-    def test3ListFiltredStore(self):
+    def test03ListNonFiltredStore(self):
         with open('outputListNonFiltredStoreTest.json') as outputListStoresFile:
             storesOutput = json.load(outputListStoresFile)
             self.assertEqual(list(), storesOutput, "List store failed!")
         print("")
 
-#def testListNonFiltredStore(self):
-#        it = 0
-#        with open('outputListStoreTest.json') as outputListStoresFile:
-#            storesOutput = json.load(outputListStoresFile)
-#            with open('inputListStoreTest.json') as inputListStoresFile:
-#                storesInput = json.load(inputListStoresFile)
-#                for store in storesInput['stores']:
-#                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "List store failed!")
-#                    it += 1
+    def test04ListFiltredStore(self):
+        with open('outputListFiltredStoreTest.json') as outputListStoresFile:
+            storesOutput = json.load(outputListStoresFile)
+            self.assertEqual(list(storesOutput['stores'][0]['address']), storesOutput, "List store filtred failed!")
+        print("")
 
 #    def testDetailStore(self):
 #
