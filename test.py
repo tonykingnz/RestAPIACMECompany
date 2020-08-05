@@ -48,15 +48,17 @@ class TestStore(unittest.TestCase):
         print("")
 
     def test04ListFiltredStore(self):
-        with open('outputListFiltredStoreTest.json') as outputListStoresFile:
-            storesOutput = json.load(outputListStoresFile)
-            self.assertEqual(list(storesOutput['stores'][0]['address']), storesOutput, "List store filtred failed!")
+        with open('listFiltredStoreTest.json') as listStoresFile:
+            stores = json.load(listStoresFile)
+            self.assertEqual(list(stores['stores'][0]['address']), stores, "List store filtred failed!")
         print("")
 
-#    def testDetailStore(self):
-#
-#        self.assertEqual(detailStore, EXPECTEDOUTPUTDETAILSTORE, "Detail Store failed")
-#
+    def test05DetailStore(self):
+        with open('detailStoreTest.json') as detailStoresFile:
+            stores = json.load(detailStoresFile)
+            stores = stores['stores'][0]
+            self.assertEqual(detail(stores['id']), stores, "Detail store failed!")
+        print("")
 #
 #    def testRemoveStore(self):
 #

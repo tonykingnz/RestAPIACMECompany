@@ -1,0 +1,16 @@
+{
+  "stores": [
+      {
+        "id": 2,
+        "address": "767 5th Ave, New York, NY 10153, United States",
+        "name": "Apple Fifth Avenue",
+        "created": "2019-05-17T13:49:51.230Z",
+        "tags": [
+          "Apple Store",
+          "Computers",
+          "Consumer Eletronics",
+          "Support"
+        ]
+      }
+  ]
+}
