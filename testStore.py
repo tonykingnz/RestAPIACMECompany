@@ -11,17 +11,6 @@ from app import detail
 from app import update
 from app import remove
 
-
-def formatUpdateStore (updateStore):
-    updateStore = str(updateStore)
-    updateStore = updateStore.replace("<object object at", "")
-    updateStore = updateStore.replace("(", "")
-    updateStore = updateStore.replace(")", "")
-    updateStore = updateStore.replace(" ", "")
-    updateStore = updateStore.split(",")
-    updateStore = int(updateStore[1])
-    return updateStore
-
 class TestStore(unittest.TestCase):
     def test01CreateStore(self):
         it = 0
@@ -58,11 +47,16 @@ class TestStore(unittest.TestCase):
             stores = json.load(detailStoresFile)
             stores = stores['stores'][0]
             self.assertEqual(detail(stores['id']), stores, "Detail store failed!")
+            
+        
+    def test06RemoveStore(self):
         print("")
-#
-#    def testRemoveStore(self):
-#
-#        self.assertEqual(removeStore, EXPECTEDOUTPUTREMOVESTORE, "Remove Store failed")
+        with open('removeStoreTest.json') as removeStoresFile:
+            stores = json.load(removeStoresFile)
+            stores = stores['stores'][0]
+            response = remove(stores['id'])
+            self.assertEqual(response[1], 204, "Remove store failed!")
+        print("")
 
 if __name__ == '__main__':
     unittest.main()
