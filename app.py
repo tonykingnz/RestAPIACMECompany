@@ -17,6 +17,7 @@ def list(storeAddress=None):
     return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress]}
 
 def create(store):
+    global STORES
     global STORE_ID
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     store['created'] = time
@@ -26,18 +27,21 @@ def create(store):
     return (STORES[STORE_ID]['id'], 201)
     
 def detail(storeId):
+    global STORES
     store = STORES.get(storeId)
     return store or ('Not found', 404)
 
 def update(store, storeId):
+    global STORES
     exists = storeId in STORES
-    store['id'] = storeId
     if exists:
+        store['id'] = storeId
         logging.info('Updating store %s..', storeId)
-        STORES[storeId].update(store)
+        STORES[storeId] = store
     return NoContent, (200 if exists else 404)
     
 def remove(storeId):
+    global STORES
     if storeId in STORES:
         logging.info('Deleting store %s..', storeId)
         del STORES[storeId]
