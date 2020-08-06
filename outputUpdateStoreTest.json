@@ -1,19 +1,22 @@
 {
   "stores": [
   {
-    "response": "200"
+    "response": 200
   },
   {
-    "response": "200"
+    "response": 200
   },
   {
-    "response": "200"
+    "response": 200
   },
   {
-    "response": "404"
+    "response": 200
   },
   {
-    "response": "(5, 201)"
+    "response": 200
+  },
+  {
+    "response": 404
   }
  ]
 }

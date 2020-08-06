@@ -43,5 +43,17 @@
       "Electric Cars",
       "Service Center"
     ]
+  },
+  {
+    "id": 9,
+    "address": "999 Van Ness Avenue, San Francisco, CA 94109",
+    "name": "Tesla San Francisco",
+    "created": "2016-05-17T13:49:51.230Z",
+    "tags": [
+      "Tesla Store",
+      "Cars",
+      "Electric Cars",
+      "Service Center"
+    ]
   }
 ]

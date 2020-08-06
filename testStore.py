@@ -23,12 +23,18 @@ class TestStore(unittest.TestCase):
                     it += 1
                     
     def test02UpdateStore(self):
+        it = 0
         print("")
         with open('inputUpdateStoreTest.json') as input_file:
-           data = json.load(input_file)
-           for store in data:
-               response = update(store, store['id'])
-               self.assertEqual(response[1], 200, "Update store failed!")
+            dataInput = json.load(input_file)
+            with open('outputUpdateStoreTest.json') as output_file:
+                dataOutput = json.load(output_file)
+                for statusCode in dataOutput['stores']:
+                    store = dataInput[it]
+                    response = update(store, store['id'])
+                    statusCode = statusCode['response']
+                    self.assertEqual(response[1], statusCode, "Update store failed!")
+                    it += 1
                
     def test03ListNonFiltredStore(self):
         with open('outputListNonFiltredStoreTest.json') as outputListStoresFile:
@@ -43,7 +49,7 @@ class TestStore(unittest.TestCase):
         print("")
 
     def test05DetailStore(self):
-        with open('detailStoreTest.json') as detailStoresFile:
+        with open('inputDetailStoreTest.json') as detailStoresFile:
             stores = json.load(detailStoresFile)
             stores = stores['stores'][0]
             self.assertEqual(detail(stores['id']), stores, "Detail store failed!")
