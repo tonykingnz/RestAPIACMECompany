@@ -49,10 +49,17 @@ class TestStore(unittest.TestCase):
         print("")
 
     def test05DetailStore(self):
-        with open('inputDetailStoreTest.json') as detailStoresFile:
-            stores = json.load(detailStoresFile)
-            stores = stores['stores'][0]
-            self.assertEqual(detail(stores['id']), stores, "Detail store failed!")
+        print("")
+        it = 0
+        with open('outputDetailStoreTest.json') as outputDetailStoresFile:
+            responses = json.load(outputDetailStoresFile)
+            with open('inputDetailStoreTest.json') as inputDetailStoresFile:
+                inputDetail = json.load(inputDetailStoresFile)
+                for storeId in inputDetail:
+                    storeId = storeId['id']
+                    response = responses[it]
+                    self.assertEqual(str(detail(storeId)), str(response['response']), "Detail store failed!")
+                    it += 1
             
         
     def test06RemoveStore(self):
