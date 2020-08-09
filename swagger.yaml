@@ -3,7 +3,7 @@ info:
   title: ACME Company API
   description: ACME Company API to manage stores, orders, and payments. You can find out more about this API at the [Github Project Repo:https://github.com/tonykingnz/RestAPIACMECompany](https://github.com/tonykingnz/RestAPIACMECompany)
   
-  version: '3.4'
+  version: '3.5'
 consumes:
   - application/json
 produces:

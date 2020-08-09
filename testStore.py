@@ -36,39 +36,34 @@ class TestStore(unittest.TestCase):
                     self.assertEqual(response[1], statusCode, "Update store failed!")
                     it += 1
                
-    def test03ListNonFiltredStore(self):
-        with open('outputListNonFiltredStoreTest.json') as outputListStoresFile:
-            storesOutput = json.load(outputListStoresFile)
-            self.assertEqual(list(), storesOutput, "List store failed!")
-        print("")
+#    def test03ListNonFiltredStore(self):
+#        with open('listStoreTestCase.json') as payloadFile:
+#            payload = json.load(payloadFile)
+#            inputTest = payload['input']
+#            outputTest = payload['output']
+#            self.assertEqual(list(inputTest), outputTest, "List store failed!")
+#        print("")
 
-    def test04ListFiltredStore(self):
-        with open('listFiltredStoreTest.json') as listStoresFile:
-            stores = json.load(listStoresFile)
-            self.assertEqual(list(stores['stores'][0]['address']), stores, "List store filtred failed!")
-        print("")
-
-    def test05DetailStore(self):
+    def test04DetailStore(self):
         print("")
         it = 0
-        with open('outputDetailStoreTest.json') as outputDetailStoresFile:
-            responses = json.load(outputDetailStoresFile)
-            with open('inputDetailStoreTest.json') as inputDetailStoresFile:
-                inputDetail = json.load(inputDetailStoresFile)
-                for storeId in inputDetail:
-                    storeId = storeId['id']
-                    response = responses[it]
-                    self.assertEqual(str(detail(storeId)), str(response['response']), "Detail store failed!")
-                    it += 1
+        with open('detailStoreTestCase.json') as payloadFile:
+            payload = json.load(payloadFile)
+            inputTest = payload['input']
+            outputTest = payload['output']
+            for response in outputTest:
+                self.assertEqual(str(detail(inputTest[it])), str(response['response']), "Detail store failed!")
+                it += 1
             
         
-    def test06RemoveStore(self):
+    def test05RemoveStore(self):
         print("")
-        with open('removeStoreTest.json') as removeStoresFile:
-            stores = json.load(removeStoresFile)
-            stores = stores['stores'][0]
-            response = remove(stores['id'])
-            self.assertEqual(response[1], 204, "Remove store failed!")
+        with open('removeStoreTestCase.json') as removeStoresFile:
+            payload = json.load(removeStoresFile)
+            storeId = payload[0]['input']
+            statusCode = payload[0]['output']
+            response = remove(storeId)
+            self.assertEqual(response[1], statusCode, "Remove store failed!")
         print("")
 
 if __name__ == '__main__':
