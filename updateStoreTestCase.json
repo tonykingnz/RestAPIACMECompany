@@ -60,23 +60,6 @@
   ],
   
   "output": [
-    {
-      "response": 200
-    },
-    {
-      "response": 200
-    },
-    {
-      "response": 200
-    },
-    {
-      "response": 200
-    },
-    {
-      "response": 200
-    },
-    {
-      "response": 404
-    }
+    200, 200, 200, 200, 200, 404
   ]
 }

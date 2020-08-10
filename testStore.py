@@ -14,14 +14,14 @@ from app import remove
 class TestStore(unittest.TestCase):
     def test01CreateStore(self):
         it = 0
-        with open('outputCreateStoreTest.json') as outputCreateStoresFile:
-            storesOutput = json.load(outputCreateStoresFile)
-            with open('inputCreateStoreTest.json') as inputCreateStoresFile:
-                storesInput = json.load(inputCreateStoresFile)
-                for store in storesInput['stores']:
-                    self.assertEqual(str(create(store)), storesOutput['stores'][it]['response'], "Store creation failed!")
-                    it += 1
-                    
+        with open('createStoreTestCase.json') as payloadFile:
+            payload = json.load(payloadFile)
+            inputTest = payload['input']
+            outputTest = payload['output']
+            for store in inputTest:
+                self.assertEqual(str(create(store)), outputTest[it], "Create store failed!")
+                it += 1
+
     def test02UpdateStore(self):
         it = 0
         print("")
@@ -30,7 +30,7 @@ class TestStore(unittest.TestCase):
             inputTest = payload['input']
             outputTest = payload['output']
             for store in inputTest:
-                self.assertEqual(update(store, store['id'])[1], outputTest[it]['response'], "Update store failed!")
+                self.assertEqual(update(store, store['id'])[1], outputTest[it], "Update store failed!")
                 it += 1
 
     def test03ListStore(self):
