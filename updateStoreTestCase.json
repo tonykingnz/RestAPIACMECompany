@@ -1,6 +1,6 @@
-[
-  {
-    "response": {
+{
+  "input": [
+    {
       "id": 1,
       "address": "37.3327° N, 122.0053° W",
       "created": "2017-11-17T13:49:51.230Z",
@@ -8,10 +8,8 @@
       "tags": [
         "string"
       ]
-    }
-  },
-  {
-    "response": {
+    },
+    {
       "id": 2,
       "address": "767 5th Ave, New York, NY 10153, United States",
       "name": "Apple Fifth Avenue",
@@ -22,26 +20,20 @@
         "Consumer Eletronics",
         "Support"
       ]
-    }
-  },
-  {
-    "response": {
+    },
+    {
       "id": 3,
       "address": "One Infinite Loop, Cupertino, CA 95014",
       "created": "2006-05-17T13:49:51.230Z",
       "name": "Apple Infinite Loop - Old in house store"
-    }
-  },
-  {
-    "response": {
+    },
+    {
       "id": 4,
       "address": "4180 El Camino Real, Palo Alto, CA 94306",
       "created": "2016-05-17T13:49:51.230Z",
       "name": "Tesla - Palo Alto"
-    }
-  },
-  {
-    "response": {
+    },
+    {
       "id": 5,
       "address": "999 Van Ness Avenue, San Francisco, CA 94109",
       "name": "Tesla San Francisco",
@@ -52,9 +44,39 @@
         "Electric Cars",
         "Service Center"
       ]
+    },
+    {
+      "id": 9,
+      "address": "999 Van Ness Avenue, San Francisco, CA 94109",
+      "name": "Tesla San Francisco",
+      "created": "2016-05-17T13:49:51.230Z",
+      "tags": [
+        "Tesla Store",
+        "Cars",
+        "Electric Cars",
+        "Service Center"
+      ]
     }
-  },
-  {
-    "response": "('Not found', 404)"
-  }
-]
+  ],
+  
+  "output": [
+    {
+      "response": 200
+    },
+    {
+      "response": 200
+    },
+    {
+      "response": 200
+    },
+    {
+      "response": 200
+    },
+    {
+      "response": 200
+    },
+    {
+      "response": 404
+    }
+  ]
+}

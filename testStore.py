@@ -25,24 +25,24 @@ class TestStore(unittest.TestCase):
     def test02UpdateStore(self):
         it = 0
         print("")
-        with open('inputUpdateStoreTest.json') as input_file:
-            dataInput = json.load(input_file)
-            with open('outputUpdateStoreTest.json') as output_file:
-                dataOutput = json.load(output_file)
-                for statusCode in dataOutput['stores']:
-                    store = dataInput[it]
-                    response = update(store, store['id'])
-                    statusCode = statusCode['response']
-                    self.assertEqual(response[1], statusCode, "Update store failed!")
-                    it += 1
-               
-#    def test03ListNonFiltredStore(self):
-#        with open('listStoreTestCase.json') as payloadFile:
-#            payload = json.load(payloadFile)
-#            inputTest = payload['input']
-#            outputTest = payload['output']
-#            self.assertEqual(list(inputTest), outputTest, "List store failed!")
-#        print("")
+        with open('updateStoreTestCase.json') as payloadFile:
+            payload = json.load(payloadFile)
+            inputTest = payload['input']
+            outputTest = payload['output']
+            for store in inputTest:
+                self.assertEqual(update(store, store['id'])[1], outputTest[it]['response'], "Update store failed!")
+                it += 1
+
+    def test03ListStore(self):
+        it = 0
+        with open('listStoreTestCase.json') as payloadFile:
+            payload = json.load(payloadFile)
+            inputTest = payload['input']
+            outputTest = payload['output']
+            for listFilter in inputTest:
+                self.assertEqual(list(listFilter), outputTest[it], "List store failed!")
+                it += 1
+        print("")
 
     def test04DetailStore(self):
         print("")
