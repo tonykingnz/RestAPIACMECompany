@@ -30,14 +30,10 @@ class TestStore(unittest.TestCase):
                 self.assertEqual(update(testCase['input'], testCase['input']['id'])[1], testCase['output'], "Update store failed!")
 
     def test03ListStore(self):
-        it = 0
         with open('listStoreTestCase.json') as payloadFile:
             payload = json.load(payloadFile)
-            inputTest = payload['input']
-            outputTest = payload['output']
-            for listFilter in inputTest:
-                self.assertEqual(list(listFilter), outputTest[it], "List store failed!")
-                it += 1
+            for testCase in payload:
+                self.assertEqual(list(testCase['input']), testCase['output'], "List store failed!")
         print("")
 
     def test04DetailStore(self):

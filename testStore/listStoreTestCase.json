@@ -1,7 +1,7 @@
-{
-  "input": ["One Infinite Loop, Cupertino, CA 95014", null],
-  "output": [
-    {
+[
+  {
+    "input": "One Infinite Loop, Cupertino, CA 95014",
+    "output": {
       "stores": [
         {
           "id": 3,
@@ -10,9 +10,12 @@
           "created": "2006-05-17T13:49:51.230Z"
         }
       ]
-    },
-    {
-      "stores":  [
+    }
+  },
+  {
+    "input": null,
+    "output": {
+      "stores": [
         {
           "id": 1,
           "address": "37.3327° N, 122.0053° W",
@@ -60,5 +63,5 @@
         }
       ]
     }
-  ]
-}
+  }
+]
