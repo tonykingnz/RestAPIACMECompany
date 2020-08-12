@@ -1,5 +1,6 @@
-{
-  "input": [
+[
+  {
+    "input":
     {
       "address": "37.3327° N, 122.0053° W",
       "name": "Apple Park Visitor Center",
@@ -7,6 +8,10 @@
         "string"
       ]
     },
+    "output": "(1, 201)"
+  },
+  {
+    "input":
     {
       "address": "767 Fifth Avenue, New York, NY 10153",
       "name": "Apple Fifth Avenue",
@@ -18,14 +23,26 @@
         "Support"
       ]
     },
+    "output": "(2, 201)"
+  },
+  {
+    "input":
     {
       "address": "One Infinite Loop, Cupertino, CA 95014",
       "name": "Apple Infinite Loop"
     },
+    "output": "(3, 201)"
+  },
+  {
+    "input":
     {
       "address": "4180 El Camino Real, Palo Alto, CA 94306",
       "name": "Tesla Palo Alto"
     },
+    "output": "(4, 201)"
+  },
+  {
+    "input":
     {
       "address": "999 Van Ness Avenue, San Francisco, CA 94109",
       "name": "Tesla San Francisco",
@@ -35,13 +52,7 @@
         "Eletric Cars",
         "Service Center"
       ]
-    }
-  ],
-  "output": [
-    "(1, 201)",
-    "(2, 201)",
-    "(3, 201)",
-    "(4, 201)",
-    "(5, 201)"
-  ]
-}
+    },
+    "output": "(5, 201)"
+  }
+]

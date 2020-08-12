@@ -19,11 +19,8 @@ class TestStore(unittest.TestCase):
         it = 0
         with open('createStoreTestCase.json') as payloadFile:
             payload = json.load(payloadFile)
-            inputTest = payload['input']
-            outputTest = payload['output']
-            for store in inputTest:
-                self.assertEqual(str(create(store)), outputTest[it], "Create store failed!")
-                it += 1
+            for testCase in payload:
+                self.assertEqual(str(create(testCase["input"])), testCase["output"], "Create store failed!")
 
     def test02UpdateStore(self):
         it = 0
