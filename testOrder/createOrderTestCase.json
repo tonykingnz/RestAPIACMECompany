@@ -1,0 +1,56 @@
+[
+  {
+    "input": {
+      "address": "37.3327° N, 122.0053° W",
+      "orderItems": [
+        {
+          "description": "iPhone 11 Pro Max 512GB Gold",
+          "quantity": 2,
+          "unitPrice": 1449.01
+        }
+      ]
+    },
+    "output": "(1, 201)"
+  },
+  {
+    "input": {
+      "address": "New Street, 132, CA, USA",
+      "orderItems": [
+        {
+          "description": "iPhone 11 Pro 512GB Gold",
+          "quantity": 2,
+          "unitPrice": 1149.01
+        },
+        {
+          "description": "Apple Watch Series 5 44mm Titanium",
+          "quantity": 1,
+          "unitPrice": 899
+        },
+        {
+          "description": "iPad Pro 12,9 Cellular 1TB",
+          "quantity": 1,
+          "unitPrice": 1449.01
+        },
+        {
+          "description": "Apple Glass",
+          "quantity": 2,
+          "unitPrice": 1449.01
+        }
+      ]
+    },
+    "output": "(2, 201)"
+  },
+  {
+    "input": {
+      "address": "Avenue 5",
+      "orderItems": [
+        {
+          "description": "Tesla Model S Sport",
+          "quantity": 1,
+          "unitPrice": 150000
+        }
+      ]
+    },
+    "output": "(3, 201)"
+  }
+]

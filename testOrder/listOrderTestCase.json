@@ -1,0 +1,67 @@
+[
+  {
+    "input": "One Infinite Loop, Cupertino, CA 95014",
+    "output": {
+      "stores": [
+        {
+          "id": 3,
+          "address": "One Infinite Loop, Cupertino, CA 95014",
+          "name": "Apple Infinite Loop - Old in house store",
+          "created": "2006-05-17T13:49:51.230Z"
+        }
+      ]
+    }
+  },
+  {
+    "input": null,
+    "output": {
+      "stores": [
+        {
+          "id": 1,
+          "address": "37.3327° N, 122.0053° W",
+          "created": "2017-11-17T13:49:51.230Z",
+          "name": "Apple Park Visitor Center",
+          "tags": [
+            "string"
+          ]
+        },
+        {
+          "id": 2,
+          "address": "767 5th Ave, New York, NY 10153, United States",
+          "name": "Apple Fifth Avenue",
+          "created": "2019-05-17T13:49:51.230Z",
+          "tags": [
+            "Apple Store",
+            "Computers",
+            "Consumer Eletronics",
+            "Support"
+          ]
+        },
+        {
+          "id": 3,
+          "address": "One Infinite Loop, Cupertino, CA 95014",
+          "name": "Apple Infinite Loop - Old in house store",
+          "created": "2006-05-17T13:49:51.230Z"
+        },
+        {
+          "id": 4,
+          "address": "4180 El Camino Real, Palo Alto, CA 94306",
+          "name": "Tesla - Palo Alto",
+          "created": "2016-05-17T13:49:51.230Z"
+        },
+        {
+          "id": 5,
+          "address": "999 Van Ness Avenue, San Francisco, CA 94109",
+          "name": "Tesla San Francisco",
+          "created": "2016-05-17T13:49:51.230Z",
+          "tags": [
+            "Tesla Store",
+            "Cars",
+            "Electric Cars",
+            "Service Center"
+          ]
+        }
+      ]
+    }
+  }
+]

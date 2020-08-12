@@ -69,7 +69,7 @@ def createOrder(order):
         items['status'] = 'ACTIVE'
     order['orderItems'] = orderItems
     ORDERS[ORDER_ID] = order
-    return (ORDERS[ORDER_ID], 201)
+    return (ORDERS[ORDER_ID]['id'], 201)
 
 def detailOrder(orderId):
     order = ORDERS.get(orderId)
