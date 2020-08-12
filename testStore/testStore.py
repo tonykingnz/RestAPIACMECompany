@@ -5,6 +5,9 @@ import connexion
 from datetime import datetime, timedelta
 import logging
 
+import sys
+sys.path.append('../')
+
 from app import list
 from app import create
 from app import detail
