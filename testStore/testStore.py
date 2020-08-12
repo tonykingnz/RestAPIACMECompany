@@ -48,10 +48,8 @@ class TestStore(unittest.TestCase):
         print("")
         with open('removeStoreTestCase.json') as removeStoresFile:
             payload = json.load(removeStoresFile)
-            storeId = payload[0]['input']
-            statusCode = payload[0]['output']
-            response = remove(storeId)
-            self.assertEqual(response[1], statusCode, "Remove store failed!")
+            for testCase in payload:
+                self.assertEqual(remove(testCase['input'])[1], testCase['output'], "Remove store failed!")
         print("")
 
 if __name__ == '__main__':
