@@ -3,12 +3,7 @@
     "input":
     {
       "id": 1,
-      "address": "37.3327° N, 122.0053° W",
-      "created": "2017-11-17T13:49:51.230Z",
-      "name": "Apple Park Visitor Center",
-      "tags": [
-        "string"
-      ]
+      "address": "37.3327° N, 122.0053° W"
     },
     "output": 200
   },
@@ -16,67 +11,21 @@
     "input":
     {
       "id": 2,
-      "address": "767 5th Ave, New York, NY 10153, United States",
-      "name": "Apple Fifth Avenue",
-      "created": "2019-05-17T13:49:51.230Z",
-      "tags": [
-        "Apple Store",
-        "Computers",
-        "Consumer Eletronics",
-        "Support"
-      ]
+      "address": "New Street, 132, CA, USA"
     },
     "output": 200
   },
   {
-    "input":
-    {
+    "input": {
       "id": 3,
-      "address": "One Infinite Loop, Cupertino, CA 95014",
-      "created": "2006-05-17T13:49:51.230Z",
-      "name": "Apple Infinite Loop - Old in house store"
+      "address": "Avenue 5, SP, BR"
     },
     "output": 200
   },
   {
-    "input":
-    {
-      "id": 4,
-      "address": "4180 El Camino Real, Palo Alto, CA 94306",
-      "created": "2016-05-17T13:49:51.230Z",
-      "name": "Tesla - Palo Alto"
-    },
-    "output": 200
-  },
-  {
-    "input":
-    {
-      "id": 5,
-      "address": "999 Van Ness Avenue, San Francisco, CA 94109",
-      "name": "Tesla San Francisco",
-      "created": "2016-05-17T13:49:51.230Z",
-      "tags": [
-        "Tesla Store",
-        "Cars",
-        "Electric Cars",
-        "Service Center"
-      ]
-    },
-    "output": 200
-  },
-  {
-    "input":
-    {
-      "id": 9,
-      "address": "999 Van Ness Avenue, San Francisco, CA 94109",
-      "name": "Tesla San Francisco",
-      "created": "2016-05-17T13:49:51.230Z",
-      "tags": [
-        "Tesla Store",
-        "Cars",
-        "Electric Cars",
-        "Service Center"
-      ]
+      "input": {
+        "id": 7,
+        "address": "Avenue 5, SP, BR"
     },
     "output": 404
   }

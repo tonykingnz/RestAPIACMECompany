@@ -26,7 +26,7 @@ class TestStore(unittest.TestCase):
         with open('updateOrderTestCase.json') as payloadFile:
             payload = json.load(payloadFile)
             for testCase in payload:
-                self.assertEqual(updateOrder(testCase['input'], testCase['input']['id'])[1], testCase['output'], "Update order failed!")
+                self.assertEqual(updateOrder(testCase['input']['address'], testCase['input']['id'])[1], testCase['output'], "Update order failed!")
 
     def test03ListOrder(self):
         with open('listOrderTestCase.json') as payloadFile:

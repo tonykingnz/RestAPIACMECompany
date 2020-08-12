@@ -78,7 +78,7 @@ def detailOrder(orderId):
 def updateOrder(address, orderId):
     exists = orderId in ORDERS
     if exists:
-        ORDERS[orderId] = order
+        order = ORDERS[orderId]
         order['id'] = orderId
         order['address'] = address
         logging.info('Updating order %s..', orderId)
