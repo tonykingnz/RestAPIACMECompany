@@ -38,14 +38,10 @@ class TestStore(unittest.TestCase):
 
     def test04DetailStore(self):
         print("")
-        it = 0
         with open('detailStoreTestCase.json') as payloadFile:
             payload = json.load(payloadFile)
-            inputTest = payload['input']
-            outputTest = payload['output']
-            for response in outputTest:
-                self.assertEqual(str(detail(inputTest[it])), str(response['response']), "Detail store failed!")
-                it += 1
+            for testCase in payload:
+                self.assertEqual(str(detail(testCase['input'])), str(testCase['output']), "Detail store failed!")
             
         
     def test05RemoveStore(self):

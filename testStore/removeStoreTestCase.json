@@ -2,5 +2,9 @@
 	{
 		"input" : 3,
 		"output": 204
+	},
+	{
+		"input": 9,
+		"output": 404
 	}
 ]
