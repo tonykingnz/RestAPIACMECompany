@@ -51,13 +51,15 @@ def remove(storeId):
         
 #Order
 def listOrder(status=None):
+    global ORDERS
     return {"orders": [orders for orders in ORDERS.values() if not status or orders['status'] == status]}
     
 def createOrder(order):
+    global ORDERS
     global ORDER_ID
     ORDER_ID += 1
     item_id = 0
-    time = datetime.utcnow()
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     order['confirmationDate'] = time
     order['id'] = ORDER_ID
     order['status'] = 'PENDING'
@@ -72,23 +74,26 @@ def createOrder(order):
     return (ORDERS[ORDER_ID]['id'], 201)
 
 def detailOrder(orderId):
+    global ORDERS
     order = ORDERS.get(orderId)
     return order or ('Not found', 404)
 
 def updateOrder(address, orderId):
+    global ORDERS
     exists = orderId in ORDERS
     if exists:
         order = ORDERS[orderId]
         order['id'] = orderId
         order['address'] = address
         logging.info('Updating order %s..', orderId)
-        ORDERS[orderId].update(order)
+        ORDERS[orderId] = order
     return NoContent, (200 if exists else 404)
 
 def refund(orderId):
+    global ORDERS
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
-        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S.%f')
+        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S')
         refundPeriod = orderDate + timedelta(days=10)
         dateNow = datetime.utcnow()
 
@@ -111,9 +116,10 @@ def refund(orderId):
         return ('Order ID is not valid or any other error', 404)
 
 def refundItem(orderId, orderItemsID):
+    global ORDERS
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
-        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S.%f')
+        orderDate = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S')
         refundPeriod = orderDate + timedelta(days=10)
         dateNow = datetime.utcnow()
         if refundPeriod >= dateNow:
@@ -152,7 +158,7 @@ def createPayment(orderId, payment):
         order['paid'] = True
         ORDERS[orderId] = order
         PAYMENTS[orderId] = payment
-        return (PAYMENTS[orderId], 201)
+        return (PAYMENTS[orderId]['id'], 201)
     else:
         return ('Payment already created', 404)
 

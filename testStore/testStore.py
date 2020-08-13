@@ -16,7 +16,6 @@ from app import remove
 
 class TestStore(unittest.TestCase):
     def test01CreateStore(self):
-        it = 0
         with open('createStoreTestCase.json') as payloadFile:
             payload = json.load(payloadFile)
             for testCase in payload:

@@ -1,67 +1,79 @@
 [
   {
-    "input": "One Infinite Loop, Cupertino, CA 95014",
-    "output": {
-      "stores": [
-        {
-          "id": 3,
-          "address": "One Infinite Loop, Cupertino, CA 95014",
-          "name": "Apple Infinite Loop - Old in house store",
-          "created": "2006-05-17T13:49:51.230Z"
-        }
-      ]
-    }
-  },
-  {
     "input": null,
     "output": {
-      "stores": [
+      "orders": [
         {
-          "id": 1,
           "address": "37.3327° N, 122.0053° W",
-          "created": "2017-11-17T13:49:51.230Z",
-          "name": "Apple Park Visitor Center",
-          "tags": [
-            "string"
-          ]
+          "orderItems": [
+            {
+              "description": "iPhone 11 Pro Max 512GB Gold",
+              "quantity": 2,
+              "unitPrice": 1449.01,
+              "itemId": 1,
+              "status": "ACTIVE"
+            }
+          ],
+          "confirmationDate": "2020-08-13 13:54:35",
+          "id": 1,
+          "status": "PENDING",
+          "paid": false
         },
         {
+          "address": "New Street, 132, CA, USA",
+          "orderItems": [
+            {
+              "description": "iPhone 11 Pro 512GB Gold",
+              "quantity": 2,
+              "unitPrice": 1149.01,
+              "itemId": 1,
+              "status": "ACTIVE"
+            },
+            {
+              "description": "Apple Watch Series 5 44mm Titanium",
+              "quantity": 1,
+              "unitPrice": 899,
+              "itemId": 2,
+              "status": "ACTIVE"
+            },
+            {
+              "description": "iPad Pro 12,9 Cellular 1TB",
+              "quantity": 1,
+              "unitPrice": 1449.01,
+              "itemId": 3,
+              "status": "ACTIVE"
+            },
+            {
+              "description": "Apple Glass",
+              "quantity": 2,
+              "unitPrice": 1449.01,
+              "itemId": 4,
+              "status": "ACTIVE"
+            }
+          ],
+          "confirmationDate": "2020-08-13 13:54:35",
           "id": 2,
-          "address": "767 5th Ave, New York, NY 10153, United States",
-          "name": "Apple Fifth Avenue",
-          "created": "2019-05-17T13:49:51.230Z",
-          "tags": [
-            "Apple Store",
-            "Computers",
-            "Consumer Eletronics",
-            "Support"
-          ]
+          "status": "PENDING",
+          "paid": false
         },
         {
+          "address": "Avenue 5, SP, BR",
+          "orderItems": [
+            {
+              "description": "Tesla Model S Sport",
+              "quantity": 1,
+              "unitPrice": 150000,
+              "itemId": 1,
+              "status": "ACTIVE"
+            }
+          ],
+          "confirmationDate": "2020-08-13 13:54:35",
           "id": 3,
-          "address": "One Infinite Loop, Cupertino, CA 95014",
-          "name": "Apple Infinite Loop - Old in house store",
-          "created": "2006-05-17T13:49:51.230Z"
-        },
-        {
-          "id": 4,
-          "address": "4180 El Camino Real, Palo Alto, CA 94306",
-          "name": "Tesla - Palo Alto",
-          "created": "2016-05-17T13:49:51.230Z"
-        },
-        {
-          "id": 5,
-          "address": "999 Van Ness Avenue, San Francisco, CA 94109",
-          "name": "Tesla San Francisco",
-          "created": "2016-05-17T13:49:51.230Z",
-          "tags": [
-            "Tesla Store",
-            "Cars",
-            "Electric Cars",
-            "Service Center"
-          ]
+          "status": "PENDING",
+          "paid": false
         }
       ]
     }
   }
 ]
+

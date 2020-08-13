@@ -1,0 +1,30 @@
+[
+  {
+    "input": {
+      "orderId": 1,
+      "itemId": [
+        1
+      ]
+    },
+    "output": "('Order items refunded sucesfully', 200)"
+  },
+  {
+    "input": {
+      "orderId": 7,
+      "itemId": [
+        1
+      ]
+    },
+    "output": "('Order ID is not valid or any other error', 404)"
+  },
+  {
+    "input": {
+      "orderId": 3,
+      "itemId": [
+        1
+      ]
+    },
+    "output": "('Order not paid. Refund requires a payment', 404)"
+  }
+
+]

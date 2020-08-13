@@ -1,0 +1,8 @@
+[
+	{
+		"input": 1,
+		"output": {
+   		"id": 1, "creditCardNumber": "5176 0400 0002 5018", "idFromOrder": 1, "paymentDate": "datetime.datetime(2020, 8, 13, 22, 12, 5, 346653)", "status": "SUBMITED"
+	       	}
+	}
+]

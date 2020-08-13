@@ -1,0 +1,14 @@
+[
+	{
+		"input" : 3,
+		"output": "('Order not paid. To refund requires a payment', 404)"
+	},
+	{
+		"input": 7,
+		"output": "('Order ID is not valid or any other error', 404)"
+	},
+	{
+		"input": 1,
+		"output": "('Order refunded sucesfully', 200)"
+	}
+]
