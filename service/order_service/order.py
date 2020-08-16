@@ -7,55 +7,16 @@ import logging
 from connexion import NoContent
 
 # our memory-only storage and variables
-STORES = {}
 ORDERS = {}
-PAYMENTS = {}
-STORE_ID = 0
 ORDER_ID = 0
-
-#Store
-def list(storeAddress=None):
-    return {"stores": [store for store in STORES.values() if not storeAddress or store['address'] == storeAddress]}
-
-def create(store):
-    global STORES
-    global STORE_ID
-    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    store['created'] = time
-    STORE_ID += 1
-    store['id'] = STORE_ID
-    STORES[STORE_ID] = store
-    return (STORES[STORE_ID]['id'], 201)
-    
-def detail(storeId):
-    global STORES
-    store = STORES.get(storeId)
-    return store or ('Not found', 404)
-
-def update(store, storeId):
-    global STORES
-    exists = storeId in STORES
-    if exists:
-        store['id'] = storeId
-        logging.info('Updating store %s..', storeId)
-        STORES[storeId] = store
-    return NoContent, (200 if exists else 404)
-    
-def remove(storeId):
-    global STORES
-    if storeId in STORES:
-        logging.info('Deleting store %s..', storeId)
-        del STORES[storeId]
-        return NoContent, 204
-    else:
-        return NoContent, 404
-        
+PAYMENTS = {}
 #Order
-def listOrder(status=None):
+
+def listOrders(status=None):
     global ORDERS
     return {"orders": [orders for orders in ORDERS.values() if not status or orders['status'] == status]}
     
-def createOrder(order):
+def createOrders(order):
     global ORDERS
     global ORDER_ID
     ORDER_ID += 1
@@ -74,12 +35,12 @@ def createOrder(order):
     ORDERS[ORDER_ID] = order
     return (ORDERS[ORDER_ID]['id'], 201)
 
-def detailOrder(orderId):
+def detailOrders(orderId):
     global ORDERS
     order = ORDERS.get(orderId)
     return order or ('Not found', 404)
 
-def updateOrder(address, orderId):
+def updateOrders(address, orderId):
     global ORDERS
     exists = orderId in ORDERS
     if exists:
@@ -90,7 +51,7 @@ def updateOrder(address, orderId):
         ORDERS[orderId] = order
     return NoContent, (200 if exists else 404)
 
-def refund(orderId):
+def refundOrder(orderId):
     global ORDERS
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
@@ -116,7 +77,7 @@ def refund(orderId):
     else:
         return ('Order ID is not valid or any other error', 404)
 
-def refundItem(orderId, orderItemsID):
+def refundItemOrder(orderId, orderItemsID):
     global ORDERS
     if orderId in ORDERS:
         date = ORDERS[orderId].get('confirmationDate')
@@ -146,9 +107,9 @@ def refundItem(orderId, orderItemsID):
             return ('Refund period of 10 days paced, sorry', 404)
     else:
         return ('Order ID is not valid or any other error', 404)
-        
+
 #Payment
-def createPayment(orderId, payment):
+def createPayments(orderId, payment):
     if orderId not in PAYMENTS:
         time = datetime.utcnow()
         payment['idFromOrder'] = orderId
@@ -163,6 +124,6 @@ def createPayment(orderId, payment):
     else:
         return ('Payment already created', 404)
 
-def paymentInformation(orderId):
+def paymentInformations(orderId):
     payment = PAYMENTS.get(orderId)
     return payment or ('Not found', 404)
