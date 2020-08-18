@@ -1,0 +1,2 @@
+class ApiCustomError(Exception):
+    pass

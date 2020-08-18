@@ -5,20 +5,10 @@ import logging
 
 from connexion import NoContent
 
+from exceptions import *
 
-from service.store_service.store import listStore
-from service.store_service.store import createStore
-from service.store_service.store import updateStore
-from service.store_service.store import detailStore
-from service.store_service.store import removeStore
-from service.order_service.order import listOrders
-from service.order_service.order import createOrders
-from service.order_service.order import updateOrders
-from service.order_service.order import detailOrders
-from service.order_service.order import refundOrder
-from service.order_service.order import refundItemOrder
-from service.order_service.order import createPayments
-from service.order_service.order import paymentInformations
+from service.store_service.store import *
+from service.order_service.order import *
 
 
 ORDERS = {}
@@ -30,16 +20,32 @@ def list(storeAddress=None):
     return (listStore(storeAddress))
 
 def create(store):
-    return (createStore(store))
-    
+    try:
+        storeId = createStore(store)
+        return (storeId, 201)
+    except ApiCustomError as e:
+        return ("Bad Request", 400)
+
 def detail(storeId):
-    return (detailStore(storeId))
+    try:
+        store = detailStore(storeId)
+        return store
+    except ApiCustomError as e:
+        return ("Not found", 404)
 
 def update(store, storeId):
-    return (updateStore(store, storeId))
+    try:
+        response = updateStore(store, storeId)
+        return(response, 200)
+    except ApiCustomError as e:
+        return("Not found", 404)
     
 def remove(storeId):
-    return (removeStore(storeId))
+     try:
+        response = removeStore(storeId)
+        return(response, 204)
+     except ApiCustomError as e:
+        return("Not found", 404)
 
 #Order
 def listOrder(status=None):

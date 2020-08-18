@@ -6,6 +6,10 @@ import logging
 
 from connexion import NoContent
 
+import sys
+sys.path.append("../../")
+from exceptions import *
+
 # our memory-only storage and variables
 STORES = {}
 ORDERS = {}
@@ -20,32 +24,39 @@ def listStore(storeAddress=None):
 def createStore(store):
     global STORES
     global STORE_ID
+    for item in STORES.values():
+        if item['name'] == store['name']:
+            raise ApiCustomError("Store name must not be duplicated")
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     store['created'] = time
     STORE_ID += 1
     store['id'] = STORE_ID
     STORES[STORE_ID] = store
-    return (STORES[STORE_ID]['id'], 201)
+    return STORE_ID
 
 def detailStore(storeId):
     global STORES
-    store = STORES.get(storeId)
-    return store or ('Not found', 404)
+    if storeId not in STORES:
+        raise ApiCustomError("Store Id invallid")
+    else:
+        store = STORES.get(storeId)
+        return store
 
 def updateStore(store, storeId):
     global STORES
-    exists = storeId in STORES
-    if exists:
+    if storeId in STORES:
         store['id'] = storeId
         logging.info('Updating store %s..', storeId)
         STORES[storeId] = store
-    return NoContent, (200 if exists else 404)
+        return NoContent
+    else:
+        raise ApiCustomError("Store dont found")
 
 def removeStore(storeId):
     global STORES
     if storeId in STORES:
         logging.info('Deleting store %s..', storeId)
         del STORES[storeId]
-        return NoContent, 204
+        return NoContent
     else:
-        return NoContent, 404
+        raise ApiCustomError("Store dont found")
