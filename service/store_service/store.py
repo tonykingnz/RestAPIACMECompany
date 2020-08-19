@@ -12,10 +12,7 @@ from exceptions import *
 
 # our memory-only storage and variables
 STORES = {}
-ORDERS = {}
-PAYMENTS = {}
 STORE_ID = 0
-ORDER_ID = 0
 
 #Store
 def listStore(storeAddress=None):

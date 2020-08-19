@@ -6,12 +6,16 @@ import logging
 
 from connexion import NoContent
 
+import sys
+sys.path.append("../../")
+from exceptions import *
+
 # our memory-only storage and variables
 ORDERS = {}
 ORDER_ID = 0
 PAYMENTS = {}
-#Order
 
+#Order
 def listOrders(status=None):
     global ORDERS
     return {"orders": [orders for orders in ORDERS.values() if not status or orders['status'] == status]}
@@ -33,23 +37,30 @@ def createOrders(order):
         items['status'] = 'ACTIVE'
     order['orderItems'] = orderItems
     ORDERS[ORDER_ID] = order
-    return (ORDERS[ORDER_ID]['id'], 201)
+    return ORDER_ID
 
 def detailOrders(orderId):
     global ORDERS
-    order = ORDERS.get(orderId)
-    return order or ('Not found', 404)
+    if orderId not in ORDERS:
+        raise ApiCustomError("Order Id invallid")
+    else:
+        order = ORDERS.get(orderId)
+        return order
 
 def updateOrders(address, orderId):
     global ORDERS
-    exists = orderId in ORDERS
-    if exists:
+    print(address)
+    print(orderId)
+    print(ORDERS[orderId])
+    if orderId in ORDERS:
         order = ORDERS[orderId]
         order['id'] = orderId
         order['address'] = address
         logging.info('Updating order %s..', orderId)
         ORDERS[orderId] = order
-    return NoContent, (200 if exists else 404)
+        return NoContent
+    else:
+        raise ApiCustomError("Order dont found")
 
 def refundOrder(orderId):
     global ORDERS
@@ -69,13 +80,13 @@ def refundOrder(orderId):
                     order['orderItems'] = orderItems
                 ORDERS[orderId] = order
                 logging.info('Refunding Order %s..', orderId)
-                return ('Order refunded sucesfully', 200)
+                return NoContent
             else:
-                return ('Order not paid. To refund requires a payment', 404)
+                raise ApiRefundOrderErrorNotPaid('Order not paid. To refund requires a payment', 404)
         else:
-            return ('Refund period of 10 days paced, sorry', 404)
+            raise ApiRefundOrderErrorPeriodPassed('Refund period of 10 days paced, sorry', 404)
     else:
-        return ('Order ID is not valid or any other error', 404)
+        raise ApiRefundOrderErrorInvallidID('Order ID is not valid or any other error', 404)
 
 def refundItemOrder(orderId, orderItemsID):
     global ORDERS
@@ -96,17 +107,17 @@ def refundItemOrder(orderId, orderItemsID):
                         orderStatus['status'] = 'REFUNDED'
                         orderItems[itemIdNumber] = orderStatus
                     except:
-                        return ('Some item ID dont found')
+                        raise ApiRefundItemOrderErrorInvallidID("Some item ID dont found")
                 order['orderItems'] = orderItems
                 ORDERS[orderId] = order
                 logging.info('Refunding items from the order %s..', orderId)
-                return ('Order items refunded sucesfully', 200)
+                return NoContent 
             else:
-                return ('Order not paid. Refund requires a payment', 404)
+                raise ApiRefundItemOrderErrorNotPaid("Order not paid. Refund requires a payment")
         else:
-            return ('Refund period of 10 days paced, sorry', 404)
+            raise ApiRefundItemOrderErrorPeriodPassed("Refund period of 10 days paced, sorry")
     else:
-        return ('Order ID is not valid or any other error', 404)
+        raise ApiRefundItemOrderErrorInvallidID("Order ID is not valid or any other error")
 
 #Payment
 def createPayments(orderId, payment):
@@ -120,10 +131,15 @@ def createPayments(orderId, payment):
         order['paid'] = True
         ORDERS[orderId] = order
         PAYMENTS[orderId] = payment
-        return (PAYMENTS[orderId]['id'], 201)
+        return PAYMENTS[orderId]['id']
     else:
-        return ('Payment already created', 404)
+        raise ApiCustomError("Payment already created")
 
 def paymentInformations(orderId):
-    payment = PAYMENTS.get(orderId)
-    return payment or ('Not found', 404)
+    global PAYMENTS
+    if orderId not in PAYMENTS:
+        raise ApiCustomError("Order Id invallid")
+    else:
+        payment = PAYMENTS.get(orderId)
+        return payment
+

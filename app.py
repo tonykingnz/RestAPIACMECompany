@@ -10,11 +10,6 @@ from exceptions import *
 from service.store_service.store import *
 from service.order_service.order import *
 
-
-ORDERS = {}
-PAYMENTS = {}
-ORDER_ID = 0
-
 #Store
 def list(storeAddress=None):
     return (listStore(storeAddress))
@@ -52,23 +47,39 @@ def listOrder(status=None):
     return(listOrders(status))
 
 def createOrder(order):
-    return(createOrders(order))
+    try:
+        orderId = createOrders(order)
+        return (orderId, 201)
+    except ApiCustomError as e:
+        return ("Bad Request", 400)
 
 def detailOrder(orderId):
-    return(detailOrders(orderId))
+    try:
+        order = detailOrders(orderId)
+        return order
+    except ApiCustomError as e:
+        return ("Not found", 404)
 
 def updateOrder(address, orderId):
-    return(updateOrders(address, orderId))
+    try:
+        response = updateStore(address, orderId)
+        return(response, 200)
+    except ApiCustomError as e:
+        return("Not found", 404)
 
 def refund(orderId):
-    return(refundOrders(orderId))
+    return(refundOrder(orderId))
 
 def refundItem(orderId, orderItemsID):
     return(refundItemOrder(orderId, orderItemsID))
 
 #Payment
 def createPayment(orderId, payment):
-    return(createPayments(orderId, payment))
+    try:
+        response = createPayments(orderId, payment)
+        return(response, 201)
+    except:
+        return("Bad request", 201)
 
 def paymentInformation(orderId):
     return(paymentInformations(orderId))
